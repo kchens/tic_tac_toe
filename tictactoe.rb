@@ -22,17 +22,17 @@ class GameModel
   end
 
   def winner?
-    get_rows.each       {|row| return true if row.uniq.count == 1 }
-    get_columns.each    {|column| return true if column.uniq.count == 1 }
-    get_diagonals.each  {|diagonal| return true if diagonal.uniq.count == 1 }
+    win_filter = Proc.new { |array| return true if array.uniq.count == 1 }
+
+    get_rows.each(&win_filter)
+    get_columns.each(&win_filter)
+    get_diagonals.each(&win_filter)
+
+    # get_rows.each       {|row| return true if row.uniq.count == 1 }
+    # get_columns.each    {|column| return true if column.uniq.count == 1 }
+    # get_diagonals.each  {|diagonal| return true if diagonal.uniq.count == 1 }
     return false
   end
-
-  # def loop_through(nested_array)
-  #   nested_array.each |array|
-  #     yield array
-  #   end
-  # end
 
   def get_rows
     board.each_slice(3).to_a
