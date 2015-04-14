@@ -6,21 +6,19 @@ class GameModel
     @board = Array.new(9) { |num| num }
     @player_one = first_player_factory.new(self, "X")
     @player_two = second_player_factory.new(self, "O")
-  end
-
-  def current_player
-    @current_player ||= @player_one
+    @current_player = @player_one
   end
 
   def switch_players
-    @current_player = @player_two
+    @current_player = (@current_player.marker == @player_one.marker) ? (@player_two) : (@player_one)
   end
 
   def get_available_positions
     board.select {|cell| cell != "X" && cell != "O"}
   end
 
-  def set_position
+  def set_position(num)
+    board[num] = @current_player.marker
   end
 
   def winner?
@@ -45,13 +43,13 @@ class GameModel
   end
 
   def clear_board
-    board = Array.new(9) { |num| num }
+    @board = Array.new(9) { |num| num }
   end
 end
 
 
 class Player
-  attr_reader :marker
+  attr_reader :game, :marker
   def initialize(game, marker)
     @game = game
     @marker = marker
@@ -71,12 +69,17 @@ game_model = GameModel.new(HumanPlayer, HumanPlayer)
 p game_model.current_player.marker  == "X"
 game_model.switch_players
 p game_model.current_player.marker  == "O"
+game_model.switch_players
+p game_model.current_player.marker  == "X"
+
 p game_model.get_rows       == [[0,1,2], [3,4,5], [6,7,8]]
 p game_model.get_columns    == [[0,3,6], [1,4,7], [2,5,8]]
 p game_model.get_diagonals  == [[0,4,8], [2,4,6]]
 game_model.board[1]         = "X"
 p game_model.get_available_positions == [0,2,3,4,5,6,7,8]
 p game_model.clear_board    == board_checker
+game_model.current_player.set_position(0)
+p game_model.board          == ["X",1,2,3,4,5,6,7,8]
 
 
 class GameController
