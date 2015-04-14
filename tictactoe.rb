@@ -22,10 +22,17 @@ class GameModel
   end
 
   def winner?
+    get_rows.each       {|row| return true if row.uniq.count == 1 }
+    get_columns.each    {|column| return true if column.uniq.count == 1 }
+    get_diagonals.each  {|diagonal| return true if diagonal.uniq.count == 1 }
+    return false
   end
 
-  def get_winning_states
-  end
+  # def loop_through(nested_array)
+  #   nested_array.each |array|
+  #     yield array
+  #   end
+  # end
 
   def get_rows
     board.each_slice(3).to_a
@@ -81,6 +88,28 @@ p game_model.clear_board    == board_checker
 game_model.current_player.set_position(0)
 p game_model.board          == ["X",1,2,3,4,5,6,7,8]
 
+# Win Row
+game_model.current_player.set_position(1)
+game_model.current_player.set_position(2)
+p game_model.winner? == true
+p game_model.board
+p game_model.clear_board    == board_checker
+
+# Win Column
+game_model.current_player.set_position(0)
+game_model.current_player.set_position(3)
+game_model.current_player.set_position(6)
+p game_model.board
+p game_model.winner?        == true
+p game_model.clear_board    == board_checker
+
+# Win Diagonal
+game_model.current_player.set_position(0)
+game_model.current_player.set_position(4)
+game_model.current_player.set_position(8)
+p game_model.board
+p game_model.winner?        == true
+p game_model.clear_board    == board_checker
 
 class GameController
 
