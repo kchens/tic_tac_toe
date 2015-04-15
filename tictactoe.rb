@@ -9,7 +9,7 @@ class GameModel
     @current_player = @player_one
   end
 
-  def switch_players
+  def switch_players!
     @current_player = (@current_player.marker == @player_one.marker) ? (@player_two) : (@player_one)
   end
 
@@ -17,9 +17,12 @@ class GameModel
     board.select {|cell| cell != "X" && cell != "O"}
   end
 
-  def set_position(num)
-    board[num] = @current_player.marker if board[num].is_a?(Integer)
-    switch_players
+  def set_position!(num)
+    board[num] = @current_player.marker
+  end
+
+  def return_winner
+    @current_player.marker if winner?
   end
 
   def winner?
@@ -66,61 +69,29 @@ end
 
 class HumanPlayer < Player
 
-  def set_position(num)
-    game.set_position(num)
+  def set_position!(num)
+    if game.get_available_positions.include?(num)
+      game.set_position!(num)
+      game.switch_players!
+    else
+      false
+    end
   end
 end
 
-board_checker = Array.new(9) { |num| num }
-game_model = GameModel.new(HumanPlayer, HumanPlayer)
 
-p game_model.current_player.marker  == "X"
-game_model.switch_players
-p game_model.current_player.marker  == "O"
-game_model.switch_players
-p game_model.current_player.marker  == "X"
+# class GameController
 
-p game_model.get_rows       == [[0,1,2], [3,4,5], [6,7,8]]
-p game_model.get_columns    == [[0,3,6], [1,4,7], [2,5,8]]
-p game_model.get_diagonals  == [[0,4,8], [2,4,6]]
-game_model.board[1]         = "X"
-p game_model.get_available_positions == [0,2,3,4,5,6,7,8]
-p game_model.clear_board    == board_checker
-game_model.current_player.set_position(0)
-p game_model.board          == ["X",1,2,3,4,5,6,7,8]
+#   def initialize(args = {player_one: Player.new, player_two: Player.new, game_model: GameModel.new, view: GameView.new})
+#     game_model = args[:game_model]
+#     view       = args[:view]
+#   end
 
-# Win Row
-p "Row--"
-game_model.current_player.set_position(1)
-game_model.current_player.set_position(2)
-p game_model.winner? == true
-# p game_model.board
-p game_model.clear_board    == board_checker
-
-# Win Column
-p "Column--"
-game_model.current_player.set_position(0)
-game_model.current_player.set_position(3)
-game_model.current_player.set_position(6)
-# p game_model.board
-p game_model.winner?        == true
-p game_model.clear_board    == board_checker
-
-# Win Diagonal
-p "Diagonal--"
-game_model.current_player.set_position(0)
-game_model.current_player.set_position(4)
-game_model.current_player.set_position(8)
-# p game_model.board
-p game_model.winner?        == true
-p game_model.clear_board    == board_checker
-
-class GameController
-
-  def initialize(model = GameModel.new, player_one = Player.new, player_two = Player.new, view = GameView.new)
-  end
-
-end
+#   def set_position
+#     selected_position = view.set_position
+#     game_model(selected_position)
+#   end
+# end
 
 
 class GameView
@@ -139,12 +110,74 @@ class GameView
   def print_winner
   end
 
-  def get_move
+  def set_position
+    puts "Select a position"
+    gets
   end
 
 end
 
+
+board_checker = Array.new(9) { |num| num }
+game_model = GameModel.new(HumanPlayer, HumanPlayer)
 view = GameView.new
-game_model.current_player.set_position(6)
-game_model.current_player.set_position(6)
-view.print_board(game_model)
+
+# controller = GameController.new({game_model})
+
+
+p game_model.current_player.marker  == "X"
+game_model.switch_players!
+p game_model.current_player.marker  == "O"
+game_model.switch_players!
+p game_model.current_player.marker  == "X"
+
+p game_model.get_rows       == [[0,1,2], [3,4,5], [6,7,8]]
+p game_model.get_columns    == [[0,3,6], [1,4,7], [2,5,8]]
+p game_model.get_diagonals  == [[0,4,8], [2,4,6]]
+game_model.board[1]         = "X"
+p game_model.get_available_positions == [0,2,3,4,5,6,7,8]
+p game_model.clear_board    == board_checker
+game_model.current_player.set_position!(0)
+p game_model.board          == ["X",1,2,3,4,5,6,7,8]
+p game_model.clear_board    == board_checker
+# p game_model.switch_players!
+
+# Win Row
+p "Row--"
+game_model.current_player.set_position!(0)
+game_model.current_player.set_position!(5) #other player
+game_model.current_player.set_position!(1)
+game_model.current_player.set_position!(7) #other player
+game_model.current_player.set_position!(2)
+# p view.print_board(game_model)
+p game_model.clear_board    == board_checker
+
+# Win Column
+p "Column--"
+game_model.current_player.set_position!(0)
+game_model.current_player.set_position!(1) #other player
+game_model.current_player.set_position!(3)
+game_model.current_player.set_position!(2) #other player
+game_model.current_player.set_position!(6)
+# p view.print_board(game_model)
+p game_model.winner?        == true
+p game_model.clear_board    == board_checker
+
+# Win Diagonal
+p "Diagonal--"
+game_model.current_player.set_position!(0)
+game_model.current_player.set_position!(2) #other player
+game_model.current_player.set_position!(4)
+game_model.current_player.set_position!(6) #other player
+game_model.current_player.set_position!(8)
+# p view.print_board(game_model)
+p game_model.winner?        == true
+
+p "Return Winner --"
+p game_model.return_winner  == "X"
+p game_model.clear_board    == board_checker
+
+# Unable to move
+p "Player unable to move--"
+game_model.current_player.set_position!(0)
+p game_model.current_player.set_position!(0) == false
