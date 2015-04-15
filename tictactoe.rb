@@ -69,12 +69,13 @@ end
 
 class HumanPlayer < Player
 
-  def set_position!(num)
-    if game.get_available_positions.include?(num)
-      game.set_position!(num)
+  def set_position!(chosen_pos)
+    if game.get_available_positions.include?(chosen_pos)
+      game.set_position!(chosen_pos)
       game.switch_players!
     else
-      false
+      another_pos = gets.to_i
+      set_position!(another_pos) #recursion is non-performant, but cool
     end
   end
 end
@@ -180,4 +181,5 @@ p game_model.clear_board    == board_checker
 # Unable to move
 p "Player unable to move--"
 game_model.current_player.set_position!(0)
-p game_model.current_player.set_position!(0) == false
+game_model.current_player.set_position!(0)
+# p view.print_board(game_model)
