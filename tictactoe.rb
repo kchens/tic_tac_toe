@@ -17,8 +17,8 @@ class GameModel
     board.select {|cell| cell != "X" && cell != "O"}
   end
 
-  def set_position!(num)
-    board[num] = @current_player.marker
+  def set_position!(chosen_pos)
+    board[chosen_pos] = @current_player.marker
   end
 
   def return_winner
@@ -132,16 +132,26 @@ p game_model.current_player.marker  == "O"
 game_model.switch_players!
 p game_model.current_player.marker  == "X"
 
+p "Get Rows--"
 p game_model.get_rows       == [[0,1,2], [3,4,5], [6,7,8]]
+
+p "Get Columns--"
 p game_model.get_columns    == [[0,3,6], [1,4,7], [2,5,8]]
+
+p "Get Diagonals--"
 p game_model.get_diagonals  == [[0,4,8], [2,4,6]]
 game_model.board[1]         = "X"
+
+p "Get Available Positions--"
 p game_model.get_available_positions == [0,2,3,4,5,6,7,8]
+
+p "Clear Board--"
 p game_model.clear_board    == board_checker
+
+p "Set Position--"
 game_model.current_player.set_position!(0)
 p game_model.board          == ["X",1,2,3,4,5,6,7,8]
-p game_model.clear_board    == board_checker
-# p game_model.switch_players!
+game_model.clear_board
 
 # Win Row
 p "Row--"
@@ -162,7 +172,7 @@ game_model.current_player.set_position!(2) #other player
 game_model.current_player.set_position!(6)
 # p view.print_board(game_model)
 p game_model.winner?        == true
-p game_model.clear_board    == board_checker
+game_model.clear_board    == board_checker
 
 # Win Diagonal
 p "Diagonal--"
@@ -176,10 +186,10 @@ p game_model.winner?        == true
 
 p "Return Winner --"
 p game_model.return_winner  == "X"
-p game_model.clear_board    == board_checker
+game_model.clear_board    == board_checker
 
 # Unable to move
-p "Player unable to move--"
+p "Player unable to move--until you enter an available number (not 0)"
 game_model.current_player.set_position!(0)
 game_model.current_player.set_position!(0)
 # p view.print_board(game_model)
