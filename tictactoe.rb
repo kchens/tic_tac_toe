@@ -18,7 +18,8 @@ class GameModel
   end
 
   def set_position(num)
-    board[num] = @current_player.marker
+    board[num] = @current_player.marker if board[num].is_a?(Integer)
+    switch_players
   end
 
   def winner?
@@ -89,25 +90,28 @@ game_model.current_player.set_position(0)
 p game_model.board          == ["X",1,2,3,4,5,6,7,8]
 
 # Win Row
+p "Row--"
 game_model.current_player.set_position(1)
 game_model.current_player.set_position(2)
 p game_model.winner? == true
-p game_model.board
+# p game_model.board
 p game_model.clear_board    == board_checker
 
 # Win Column
+p "Column--"
 game_model.current_player.set_position(0)
 game_model.current_player.set_position(3)
 game_model.current_player.set_position(6)
-p game_model.board
+# p game_model.board
 p game_model.winner?        == true
 p game_model.clear_board    == board_checker
 
 # Win Diagonal
+p "Diagonal--"
 game_model.current_player.set_position(0)
 game_model.current_player.set_position(4)
 game_model.current_player.set_position(8)
-p game_model.board
+# p game_model.board
 p game_model.winner?        == true
 p game_model.clear_board    == board_checker
 
@@ -123,7 +127,13 @@ class GameView
   def initialize
   end
 
-  def print_board
+  def print_board(game_model)
+    cells = game_model.board
+    puts " #{cells[0]}| #{cells[1]}| #{cells[2]}"
+    puts "--+---+--"
+    puts " #{cells[3]}| #{cells[4]}| #{cells[5]}"
+    puts "--+---+--"
+    puts " #{cells[6]}| #{cells[7]}| #{cells[8]}"
   end
 
   def print_winner
@@ -134,3 +144,7 @@ class GameView
 
 end
 
+view = GameView.new
+game_model.current_player.set_position(6)
+game_model.current_player.set_position(6)
+view.print_board(game_model)
