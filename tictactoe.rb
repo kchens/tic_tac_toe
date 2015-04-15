@@ -81,18 +81,26 @@ class HumanPlayer < Player
 end
 
 
-# class GameController
+class GameController
 
-#   def initialize(args = {player_one: Player.new, player_two: Player.new, game_model: GameModel.new, view: GameView.new})
-#     game_model = args[:game_model]
-#     view       = args[:view]
-#   end
+  def initialize(args = {player_one: Player.new, player_two: Player.new, game_model: GameModel.new, view: GameView.new})
+    game_model = args[:game_model]
+    view       = args[:view]
+    # player_one = args[:player_one]
+    # player_two = args[:player_two]
+  end
 
-#   def set_position
-#     selected_position = view.set_position
-#     game_model(selected_position)
-#   end
-# end
+  def play
+  end
+
+  def set_player_position!
+
+  end
+
+  def switch_players!
+  end
+
+end
 
 
 class GameView
@@ -108,14 +116,21 @@ class GameView
     puts " #{cells[6]}| #{cells[7]}| #{cells[8]}"
   end
 
-  def print_winner
+  def print_winner(winning_marker)
+    puts "Player #{winning_marker} won!"
   end
 
-  def set_position
+  def print_draw
+    puts "You tied."
+  end
+
+  def asks_for_position
     puts "Select a position"
-    gets
   end
 
+  def says_position_unavailable
+    puts "Unavailable position, choose another"
+  end
 end
 
 
