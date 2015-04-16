@@ -97,8 +97,7 @@ module TicTacToe
 
     def play
       loop do
-        return if calculate_winner
-        return if calculate_tie
+        return if over?
         add_move
         print_view
       end
@@ -113,14 +112,18 @@ module TicTacToe
       @view.print_players_turn(@game_model.current_player.marker)
     end
 
-    def calculate_winner
+    def over?
+      winner? || tie?
+    end
+
+    def winner?
       if @game_model.winner?
         @view.print_winner(@game_model.return_winner)
         end_or_rematch
       end
     end
 
-    def calculate_tie
+    def tie?
       if @game_model.tie?
         @view.print_tied
         end_or_rematch
