@@ -18,7 +18,7 @@ module TicTacToe
       board.select {|cell| cell != "X" && cell != "O"}
     end
 
-    def set_position!(chosen_pos)
+    def set_position(chosen_pos)
       board[chosen_pos] = @current_player.marker
     end
 
@@ -75,9 +75,10 @@ module TicTacToe
 
   class HumanPlayer < Player
 
-    def set_position!(chosen_pos)
+    def set_position!
+      chosen_pos = gets.to_i
       if game.get_available_positions.include?(chosen_pos)
-        game.set_position!(chosen_pos)
+        game.set_position(chosen_pos)
         game.switch_players!
       else
         return false
@@ -106,8 +107,8 @@ module TicTacToe
     def add_move
       valid_move = false
       until valid_move
-        chosen_pos = @view.asks_for_position
-        @game_model.current_player.set_position!(chosen_pos) ? (valid_move = true) : @view.says_position_unavailable
+        # chosen_pos = @view.asks_for_position
+        @game_model.current_player.set_position! ? (valid_move = true) : @view.says_position_unavailable
       end
       @view.print_players_turn(@game_model.current_player.marker)
     end
@@ -215,59 +216,64 @@ p game_model.get_available_positions == [0,2,3,4,5,6,7,8]
 p "Clear Board--"
 p game_model.new_board    == board_checker
 
-p "Set Position--"
-game_model.current_player.set_position!(0)
-p game_model.board          == ["X",1,2,3,4,5,6,7,8]
-game_model.new_board
+# p "Set Position--"
+# p "---Enter 0"
+# game_model.current_player.set_position!
+# p game_model.board          == ["X",1,2,3,4,5,6,7,8]
+# game_model.new_board
 
-# Win Row
-p "Row--"
-game_model.current_player.set_position!(0)
-game_model.current_player.set_position!(5) #other player
-game_model.current_player.set_position!(1)
-game_model.current_player.set_position!(7) #other player
-game_model.current_player.set_position!(2)
+# # Win Row
+# p "Row--"
+# p "---Enter 0,5,1,7,2"
+# game_model.current_player.set_position!#(0)
+# game_model.current_player.set_position!#(5) #other player
+# game_model.current_player.set_position!#(1)
+# game_model.current_player.set_position!#(7) #other player
+# game_model.current_player.set_position!#(2)
+# # p view.print_board(game_model)
+# p game_model.new_board    == board_checker
+
+# # Win Column
+# p "Column--"
+# p "---Enter 0,1,3,2,6"
+# game_model.current_player.set_position!#(0)
+# game_model.current_player.set_position!#(1) #other player
+# game_model.current_player.set_position!#(3)
+# game_model.current_player.set_position!#(2) #other player
+# game_model.current_player.set_position!#(6)
+# # p view.print_board(game_model)
+# p game_model.winner?        == true
+# game_model.new_board    == board_checker
+
+# # Win Diagonal
+# p "Diagonal--"
+# p "---Enter 0,2,4,6,8"
+# game_model.current_player.set_position!#(0)
+# game_model.current_player.set_position!#(2) #other player
+# game_model.current_player.set_position!#(4)
+# game_model.current_player.set_position!#(6) #other player
+# game_model.current_player.set_position!#(8)
+# # p view.print_board(game_model)
+# p game_model.winner?        == true
+
+# p "Return Winner --"
+# p game_model.return_winner  == "O"
 # p view.print_board(game_model)
-p game_model.new_board    == board_checker
+# game_model.new_board    == board_checker
 
-# Win Column
-p "Column--"
-game_model.current_player.set_position!(0)
-game_model.current_player.set_position!(1) #other player
-game_model.current_player.set_position!(3)
-game_model.current_player.set_position!(2) #other player
-game_model.current_player.set_position!(6)
-# p view.print_board(game_model)
-p game_model.winner?        == true
-game_model.new_board    == board_checker
-
-# Win Diagonal
-p "Diagonal--"
-game_model.current_player.set_position!(0)
-game_model.current_player.set_position!(2) #other player
-game_model.current_player.set_position!(4)
-game_model.current_player.set_position!(6) #other player
-game_model.current_player.set_position!(8)
-# p view.print_board(game_model)
-p game_model.winner?        == true
-
-p "Return Winner --"
-p game_model.return_winner  == "O"
-p view.print_board(game_model)
-game_model.new_board    == board_checker
-
-p "Return Tie --"
-game_model.current_player.set_position!(0)
-game_model.current_player.set_position!(1) #other player
-game_model.current_player.set_position!(2)
-game_model.current_player.set_position!(4) #other player
-game_model.current_player.set_position!(7) #other player
-game_model.current_player.set_position!(3)
-game_model.current_player.set_position!(6)
-game_model.current_player.set_position!(8)
-game_model.current_player.set_position!(5)
-p game_model.winner?        == false
-p game_model.tie?        == true
+# p "Return Tie --"
+# p "---Enter 0,1,2,4,7,3,6,8,5"
+# game_model.current_player.set_position!#(0)
+# game_model.current_player.set_position!#(1) #other player
+# game_model.current_player.set_position!#(2)
+# game_model.current_player.set_position!#(4) #other player
+# game_model.current_player.set_position!#(7) #other player
+# game_model.current_player.set_position!#(3)
+# game_model.current_player.set_position!#(6)
+# game_model.current_player.set_position!#(8)
+# game_model.current_player.set_position!#(5)
+# p game_model.winner?        == false
+# p game_model.tie?        == true
 
 p "Check if board reset"
 p view.print_board(game_model)
@@ -280,5 +286,6 @@ p view.print_board(game_model)
 # game_model.current_player.set_position!(0)
 # p view.print_board(game_model)
 
+p "Lets play!"
 my_game = TicTacToe::GameController.new
 my_game.play
