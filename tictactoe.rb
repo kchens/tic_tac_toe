@@ -22,7 +22,7 @@ module TicTacToe
       board[chosen_pos] = @current_player.marker
     end
 
-    def return_winner
+    def return_winning_marker
       switch_players!
       @current_player.marker if winner?
     end
@@ -118,27 +118,31 @@ module TicTacToe
 
     def winner?
       if @game_model.winner?
-        @view.print_winner(@game_model.return_winner)
-        end_or_rematch
+        @view.print_winner(@game_model.return_winning_marker)
+        play_again?
       end
     end
 
     def tie?
       if @game_model.tie?
         @view.print_tied
-        end_or_rematch
+        play_again?
       end
     end
 
-    def end_or_rematch
+    def play_again?
       response = @view.ask_to_play_again
       if response == "Y"
         @game_model.new_board
         print_view
         play
       else
-        !false
+        end_game
       end
+    end
+
+    def end_game
+      true
     end
 
     def print_view
