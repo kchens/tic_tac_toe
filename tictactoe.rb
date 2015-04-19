@@ -1,9 +1,10 @@
 require 'pp'
+require 'byebug'
 
 module TicTacToe
   class GameModel
-    attr_reader :current_player, :player_one, :player_two
-    attr_accessor :board
+    # attr_reader :current_player
+    attr_accessor :board, :player_one, :player_two, :current_player
 
     def initialize(first_player_factory, second_player_factory)
       # create a board with nums 0-8
@@ -22,12 +23,11 @@ module TicTacToe
     end
 
     def set_position(chosen_pos)
-      p "Chosen pos: #{chosen_pos}"
       board[chosen_pos] = @current_player.marker
     end
 
     def return_winning_marker
-      switch_players!
+      # switch_players!
       @current_player.marker if winner?
     end
 
@@ -82,20 +82,12 @@ module TicTacToe
     def new_board
       @board = Array.new(9) { |num| num }
     end
-
-    # def make_move(space)
-    #   p "IN MAKE MOVE----------------------"
-    #   new_state = dup
-    #   new_state.switch_players!
-    #   new_state.board = board.dup
-    #   new_state.board[space] = current_player.marker
-    #   new_state
-    # end
   end
 
 
   class Player
     attr_reader :game, :marker
+
     def initialize(game, marker)
       @game = game
       @marker = marker
@@ -108,7 +100,7 @@ module TicTacToe
       chosen_pos = gets.to_i
       if game.get_available_positions.include?(chosen_pos)
         game.set_position(chosen_pos)
-        game.switch_players!
+        # game.switch_players!
       else
         return false
       end
@@ -118,120 +110,86 @@ module TicTacToe
   class ComputerPlayer < Player
 
     INITIAL_DEPTH = 0
-    attr_reader :game_state
 
     Node = Struct.new(:score, :move)
 
     def set_position!
       return game if game.over?
-      @game_state = game.dup
-      game_state.board = game.board.dup
-      # p "SAMEE"
-      # p game_state.object_id == game.object_id
-
       game.set_position(choose_move)
 
-      # p "same board--------"
-      # p game.board == game_state.board
-      # p "Game--------"
-      # VIEW.print_board(game)
-      # p "Game STATE--------"
-      # VIEW.print_board(game_state)
-
-      # p "SWITCHING PLAYERS"
-      game.switch_players!
+      # game.switch_players!
     end
 
     def choose_move
-      return game_state.get_corners.sample if game_state.unplayed?
-      return game_state.get_final_move if game_state.get_available_positions.count == 1
-      best_possible_move
+      # 2. game_state = copy_game_state
+      # @game_state = copy_game_state
+      game_state = copy_game_state
+      # return game_state.get_corners.sample if game_state.unplayed?
+      # return game_state.get_final_move if game_state.get_available_positions.count == 1
 
-      # gets.to_i
+      best_possible_move(game_state)
     end
 
-    def best_possible_move
-      @base_score = game_state.get_available_positions.count + 1
-      bound = @base_score + 1
-      minimax(game_state, INITIAL_DEPTH, -bound, bound)
-      @current_move_choice
+    def copy_game_state
+      # 1. don't maek this an instance variable
+      game_state = game.dup
+      game_state.board = game.board.dup
+      game_state.current_player = game.current_player.dup
+      game_state
     end
 
-    def minimax(game_state, depth, lower_bound, upper_bound)
-      p "1"
-      return score(game_state, depth) if game_state.over?
-      p "2"
-      candidate_move_nodes = []
-      p "3"
-      game_state.get_available_positions.each do |move|
-        p "4"
-        child_board = game_state.dup
-        child_board.board = game_state.board.dup
-        p child_board.board == game_state.board
-        child_board.set_position(move)
-        p "5"
-        score = minimax(child_board, depth+1, lower_bound, upper_bound)
-        p "6"
-        node = Node.new(score, move)
-        p "7"
-        if game_state.current_player.marker == marker
-        p "8"
-        pp  candidate_move_nodes << node
-        p "9"
-        p  lower_bound = node.score if node.score > lower_bound
-        p "10"
-        else
-        p "11"
-        p  upper_bound = node.score if node.score < upper_bound
-        p "12"
-        end
-
-        p "13"
-        break if upper_bound < lower_bound
-        p "14"
-      end
-
-      p "15"
-      return upper_bound unless game_state.current_player.marker == marker
-      p "16"
-      pp candidate_move_nodes
-      p @current_move_choice = candidate_move_nodes.max_by {|node| node.score }.move
-      p "17"
-      p lower_bound
-      # Do the min or the max calculation
-      # if game.active_turn == @player
-      #   # This is the max calculation
-      #   max_score_index = scores.each_with_index.max[1]
-      #   @choice = moves[max_score_index]
-      #   return scores[max_score_index]
-      # else
-      #   # This is the min calculation
-      #   min_score_index = scores.each_with_index.min[1]
-      #   @choice = moves[min_score_index]
-      #   return scores[min_score_index]
-      # end
+    def best_possible_move(game_state)
+      # byebug
+      # When Human enters 1
+      # ["X", "O", 2, 3, "O", 5, 6, 7, 8]
+      # marker == "X"
+      # => score == 7
+      minmax(game_state)
     end
 
-    def score(game_state, depth)
-      p "18==="
-      p game_state.return_winning_marker
-      p marker = "X"
-      if game_state.return_winning_marker == marker #Computer is Winner
-        p "19==="
-        p @base_score - depth
-      elsif game_state.return_winning_marker != marker #Opponent is Winner
-        p "20==="
-        p depth - @base_score
+    def minmax(game_state)
+      if game_state.over?
+        end_score = score(game_state)
+        return end_score
       else
-        p "21==="
-        return 0
+        best_score = -(1.0/0.0)
+        best_move = nil
+
+        game_state.get_available_positions.each do |move|
+          current_score = minmax(apply_move_to_game(game_state, move))
+          if current_score > best_score
+            best_score = current_score
+            best_move = move
+          end
+        end
+      end
+      # byebug
+      best_move
+    end
+
+    def apply_move_to_game(game_state, move)
+      child_game = game_state.dup
+      child_game.board = game_state.board.dup
+      child_game.current_player = game_state.current_player.dup
+      child_game.set_position(move)
+      child_game.switch_players!
+      child_game
+    end
+
+    def score(end_game)
+      if end_game.return_winning_marker == marker
+        10
+      elsif end_game.return_winning_marker != marker
+        -10
+      else
+        0
       end
     end
   end
 
   class GameController
 
-    def initialize(args = {player_one_type: ComputerPlayer, player_two_type: HumanPlayer})
+    def initialize(args = {player_one_type: HumanPlayer, player_two_type: ComputerPlayer})
       @game_model = GameModel.new(args[:player_one_type], args[:player_two_type])
       @view       = GameView.new
       print_view
@@ -251,6 +209,7 @@ module TicTacToe
         # chosen_pos = @view.asks_for_position
         @game_model.current_player.set_position! ? (valid_move = true) : @view.says_position_unavailable
       end
+      @game_model.switch_players!
       @view.print_players_turn(@game_model.current_player.marker)
     end
 
@@ -435,21 +394,21 @@ VIEW = TicTacToe::GameView.new
 # human_game.current_player.set_position!(0)
 # p view.print_board(human_game)
 
-# p "Lets play!"
-# my_game = TicTacToe::GameController.new
-# my_game.play
+p "Lets play!"
+my_game = TicTacToe::GameController.new
+my_game.play
 
-p "Testing Computer Game---"
+# p "Testing Computer Game---"
 
-computer_game = TicTacToe::GameModel.new(TicTacToe::HumanPlayer, TicTacToe::ComputerPlayer)
-view = TicTacToe::GameView.new
-view.print_board(computer_game)
+# computer_game = TicTacToe::GameModel.new(TicTacToe::HumanPlayer, TicTacToe::ComputerPlayer)
+# view = TicTacToe::GameView.new
+# view.print_board(computer_game)
 
-p "---Unplayed"
-p computer_game.unplayed? == true
+# p "---Unplayed"
+# p computer_game.unplayed? == true
 
-my_computer_game = TicTacToe::GameController.new
-my_computer_game.play
+# my_computer_game = TicTacToe::GameController.new
+# my_computer_game.play
 
 # computer_game.current_player.set_position!
 # view.print_board(computer_game)
