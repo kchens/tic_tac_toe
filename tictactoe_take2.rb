@@ -20,6 +20,10 @@ class Board
     positions.select {|position| position.is_a?(Integer)}
   end
 
+  def get_available_positions
+    positions.select {|cell| cell != "X" && cell != "O"}
+  end
+
   def rows
     positions.each_slice(3).to_a
   end
@@ -39,6 +43,37 @@ class Board
     new_positions = Array.new(positions)
     new_positions[chosen_index] = marker
     return Board.new( new_positions )
+  end
+
+  def game_over?
+    @winner || tie?
+  end
+
+  def winner?
+    win_filter = Proc.new do |line|
+      unique_markers = line.uniq
+      if unique_markers.count == 1
+        @winner = unique_markers[0]
+        return true
+      end
+    end
+
+    rows.each(&win_filter)
+    columns.each(&win_filter)
+    diagonals.each(&win_filter)
+    return false
+  end
+
+  def winner
+    @winner
+  end
+
+  def tie?
+    if full? && !@winner
+      true
+    else
+      false
+    end
   end
 end
 
@@ -65,6 +100,49 @@ end
 
 
 class ComputerPlayer < Player
+  def move(board)
+    best_move = minmax(board, marker) #minmax
+    board.place_piece(best_move, marker)
+  end
+
+  def minmax(board, marker) #minmax
+    if board.game_over?
+      byebug
+      return score(board)
+    else
+      best_score  = -(1.0/0.0)
+      best_move   = nil
+
+      board.get_available_positions.each do |move|
+        board = board.place_piece(move, marker)
+        other_player_marker = (marker == 'O') ? 'X' : 'O'
+
+        current_score = minmax(board, other_player_marker)
+
+        if current_score > best_score
+          best_score = current_score
+          best_move = move
+        end
+      end
+    end
+    best_move
+    #   score the game
+    #   retrun the score
+    # else
+    #   keep track of best_score and best_mvoe
+    #   loop through games positions
+    #     current_score = minmax(board.place_piece(best_move, move))
+  end
+
+  def score(board)
+    if board.winner == marker
+      10
+    elsif board.winner != marker
+      -10
+    else
+      0
+    end
+  end
 end
 
 
@@ -92,46 +170,46 @@ class Game
   end
 
   def play
-    until game_over?(board)
+    until board.game_over?
       @board = current_player.move(board)
-      if winner?(board)
-        return VIEW.print_winner(@winner)
-      elsif tie?(board)
+      VIEW.print_board(board)
+      if board.winner?
+        return VIEW.print_winner(board.winner)
+      elsif board.tie?
         return VIEW.print_tie
       else
         switch_players!
-      end
-      VIEW.print_board(board)
-      VIEW.print_players_turn(current_player.marker)
-    end
-  end
-
-  def game_over?(board)
-    @winner || tie?(board)
-  end
-
-  def winner?(board)
-    win_filter = Proc.new do |line|
-      unique_markers = line.uniq
-      if unique_markers.count == 1
-        @winner = unique_markers[0]
-        return true
+        VIEW.print_players_turn(current_player.marker)
       end
     end
-
-    board.rows.each(&win_filter)
-    board.columns.each(&win_filter)
-    board.diagonals.each(&win_filter)
-    return false
   end
 
-  def tie?(board)
-    if board.full? && !@winner
-      true
-    else
-      false
-    end
-  end
+  # def game_over?(board)
+  #   @winner || tie?(board)
+  # end
+
+  # def winner?(board)
+  #   win_filter = Proc.new do |line|
+  #     unique_markers = line.uniq
+  #     if unique_markers.count == 1
+  #       @winner = unique_markers[0]
+  #       return true
+  #     end
+  #   end
+
+  #   board.rows.each(&win_filter)
+  #   board.columns.each(&win_filter)
+  #   board.diagonals.each(&win_filter)
+  #   return false
+  # end
+
+  # def tie?(board)
+  #   if board.full? && !@winner
+  #     true
+  #   else
+  #     false
+  #   end
+  # end
 
   def switch_players!
     @current_player_id = (@current_player_id == 0) ? 1 : 0
@@ -202,8 +280,9 @@ winning_board = Board.new(["X","O","O","X","O","O","X",7,8])
 # p "Make a game where a human wins"
 
 VIEW = View.new
-my_game = Game.new(Board, HumanPlayer, HumanPlayer)
-# byebug
+my_game = Game.new(Board, HumanPlayer, ComputerPlayer)
+byebug
 p "yo"
 
 my_game.play
+
