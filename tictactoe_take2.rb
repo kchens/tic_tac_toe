@@ -95,9 +95,9 @@ class Game
     until game_over?(board)
       @board = current_player.move(board)
       if winner?(board)
-        VIEW.print_winner(current_player.marker)
+        return VIEW.print_winner(@winner)
       elsif tie?(board)
-        VIEW.print_tie
+        return VIEW.print_tie
       else
         switch_players!
       end
@@ -107,17 +107,22 @@ class Game
   end
 
   def game_over?(board)
-    winner?(board) || tie?(board)
+    @winner || tie?(board)
   end
 
   def winner?(board)
-    positions = board.positions
+    win_filter = Proc.new do |line|
+      unique_markers = line.uniq
+      if unique_markers.count == 1
+        @winner = unique_markers[0]
+        return true
+      end
+    end
 
-    # get the board's positions
-    # check rows - return true and assign @winner
-    # check columsn - return true and assign @winner
-    # check diagonals - return true and assign @winner
-    # otherwise return false
+    board.rows.each(&win_filter)
+    board.columns.each(&win_filter)
+    board.diagonals.each(&win_filter)
+    return false
   end
 
   def tie?(board)
@@ -153,7 +158,7 @@ class View
     puts "Player #{winning_marker} won!"
   end
 
-  def pritn_tie
+  def print_tie
     puts "TIE!"
   end
 end
@@ -192,12 +197,13 @@ new_board = Board.new(["X","O","X","X","O","O","O","X","O"])
 # byebug
 # p new_board.tie? == true
 
-
+winning_board = Board.new(["X","O","O","X","O","O","X",7,8])
 
 # p "Make a game where a human wins"
-# VIEW = View.new
+
+VIEW = View.new
 my_game = Game.new(Board, HumanPlayer, HumanPlayer)
-byebug
+# byebug
 p "yo"
 
-# my_game.play
+my_game.play
