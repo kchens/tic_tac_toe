@@ -101,31 +101,47 @@ end
 
 class ComputerPlayer < Player
   def move(board)
-    best_move = minmax(board, marker) #minmax
-    board.place_piece(best_move, marker)
+    minmax(board) #minmax to create @best_move
+
+    board.place_piece(@best_move, marker)
   end
 
-  def minmax(board, marker) #minmax
+  # minmax
+  # call minmax(board)
+  #   minmax
+        # else
+        #   player_tracker = player_tracker.nil? ? 0 : counter + 1
+        #   new_marker = counter.even? ? 'X' : 'O'
+
+  def minmax(board) #minmax
     if board.game_over?
-      byebug
+      # byebug
       return score(board)
     else
-      best_score  = -(1.0/0.0)
-      best_move   = nil
+      worst_score = (1.0/0.0) #Infinity
+      best_score  = -worst_score #-Infinity
+      @best_move   = nil
+
+      player_tracker = player_tracker.nil? ? 0 : counter + 1
+      new_marker = player_tracker.even? ? 'O' : 'X'
 
       board.get_available_positions.each do |move|
-        board = board.place_piece(move, marker)
-        other_player_marker = (marker == 'O') ? 'X' : 'O'
-
-        current_score = minmax(board, other_player_marker)
+        board = board.place_piece(move, new_marker)
+        # other_player_marker = (marker == 'O') ? 'X' : 'O'
+        # byebug
+        current_score = minmax(board)
 
         if current_score > best_score
+          @best_move = move
           best_score = current_score
-          best_move = move
+          return best_score
+        # elsif current_score < worst_score && new_marker != marker
+        #   @best_move = move
+        #   worst_score = current_score
+        #   return worst_score
         end
       end
     end
-    best_move
     #   score the game
     #   retrun the score
     # else
@@ -170,6 +186,7 @@ class Game
   end
 
   def play
+    VIEW.print_board(board)
     until board.game_over?
       @board = current_player.move(board)
       VIEW.print_board(board)
@@ -281,7 +298,7 @@ winning_board = Board.new(["X","O","O","X","O","O","X",7,8])
 
 VIEW = View.new
 my_game = Game.new(Board, HumanPlayer, ComputerPlayer)
-byebug
+# byebug
 p "yo"
 
 my_game.play
