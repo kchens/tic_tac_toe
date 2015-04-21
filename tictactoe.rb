@@ -145,6 +145,7 @@ module TicTacToe
       # marker == "X"
       # => score == 7
       minmax(game_state)
+      @best_move
     end
 
     def minmax(game_state)
@@ -153,18 +154,18 @@ module TicTacToe
         return end_score
       else
         best_score = -(1.0/0.0)
-        best_move = nil
+        @best_move = nil
 
         game_state.get_available_positions.each do |move|
           current_score = minmax(apply_move_to_game(game_state, move))
           if current_score > best_score
             best_score = current_score
-            best_move = move
+            @best_move = move
           end
         end
       end
       # byebug
-      best_move
+      best_score
     end
 
     def apply_move_to_game(game_state, move)

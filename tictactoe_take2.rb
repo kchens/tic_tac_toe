@@ -1,5 +1,5 @@
 require 'pp'
-require 'byebug'
+# require 'byebug'
 
 class Board
 
@@ -46,7 +46,7 @@ class Board
   end
 
   def game_over?
-    @winner || tie?
+    winner? || tie?
   end
 
   def winner?
@@ -65,6 +65,8 @@ class Board
   end
 
   def winner
+    # VIEW.print_board(self)
+    # p "Is winner in self? #{@winner}"
     @winner
   end
 
@@ -100,63 +102,64 @@ end
 
 
 class ComputerPlayer < Player
-  def move(board)
-    minmax(board) #minmax to create @best_move
+  def move(game_board)
+    minmax(game_board) #minmax to create @best_move
 
-    board.place_piece(@best_move, marker)
+    game_board.place_piece(@best_move, marker)
   end
 
-  # minmax
-  # call minmax(board)
-  #   minmax
-        # else
-        #   player_tracker = player_tracker.nil? ? 0 : counter + 1
-        #   new_marker = counter.even? ? 'X' : 'O'
-
-  def minmax(board) #minmax
+  def minmax(board, player_tracker = 0) #minmax
+    # VIEW.print_board(board)
     if board.game_over?
-      # byebug
+      p "Game Over: #{board.game_over?}"
+      # VIEW.print_board(board)
+      p "BACON"
+      p "score: #{score(board)}"
       return score(board)
     else
-      worst_score = (1.0/0.0) #Infinity
-      best_score  = -worst_score #-Infinity
-      @best_move   = nil
+      worst_score  = (1.0/0.0) #Infinity
+      best_score  = -(1.0/0.0) #-Infinity
+      @best_move  = board.get_available_positions.first
 
-      player_tracker = player_tracker.nil? ? 0 : counter + 1
       new_marker = player_tracker.even? ? 'O' : 'X'
+      player_tracker += 1
 
+      # p "new_marker: #{new_marker}"
+      # p "Starting loop"
       board.get_available_positions.each do |move|
-        board = board.place_piece(move, new_marker)
-        # other_player_marker = (marker == 'O') ? 'X' : 'O'
-        # byebug
-        current_score = minmax(board)
-
-        if current_score > best_score
-          @best_move = move
-          best_score = current_score
-          return best_score
-        # elsif current_score < worst_score && new_marker != marker
-        #   @best_move = move
-        #   worst_score = current_score
-        #   return worst_score
+        new_board = board.place_piece(move, new_marker)
+        p "Positions available: #{board.get_available_positions}"
+        current_score = minmax(new_board, player_tracker)
+        p "----------State of Scores----------"
+        p "current_score: #{current_score}"
+        p "best_score before: #{best_score}"
+        p "move: #{move}"
+        if new_marker == marker #if the player is the computer player
+          if current_score > best_score
+            @best_move = move
+            best_score = current_score
+            p "best_score after: #{best_score}"
+          end
+        else
+          if current_score < worst_score
+            current_score
+          end
         end
       end
     end
-    #   score the game
-    #   retrun the score
-    # else
-    #   keep track of best_score and best_mvoe
-    #   loop through games positions
-    #     current_score = minmax(board.place_piece(best_move, move))
+    return best_score
   end
 
   def score(board)
-    if board.winner == marker
+    # "O", "X", "nil"
+    if board.winner == "O" #'O' == 'O', 'nil' == 'O'
       10
-    elsif board.winner != marker
+    elsif board.winner == "X" #'X' != 'O', 'nil' != 'O'
       -10
-    else
+    elsif board.winner == nil
       0
+    else
+      raise "ERROR"
     end
   end
 end
