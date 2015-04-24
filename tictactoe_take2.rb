@@ -108,54 +108,34 @@ class ComputerPlayer < Player
     game_board.place_piece(@best_move, marker)
   end
 
-  def minmax(board, player_tracker = 0) #minmax
-    # VIEW.print_board(board)
+  def minmax(board, player_tracker = 0, iteration = 0) #minmax
     if board.game_over?
-      p "Game Over: #{board.game_over?}"
-      # VIEW.print_board(board)
-      p "BACON"
-      p "score: #{score(board)}"
-      return score(board)
-    else
-      worst_score  = (1.0/0.0) #Infinity
-      best_score  = -(1.0/0.0) #-Infinity
-      @best_move  = board.get_available_positions.first
-
-      new_marker = player_tracker.even? ? 'O' : 'X'
-      player_tracker += 1
-
-      # p "new_marker: #{new_marker}"
-      # p "Starting loop"
-      board.get_available_positions.each do |move|
-        new_board = board.place_piece(move, new_marker)
-        p "Positions available: #{board.get_available_positions}"
-        current_score = minmax(new_board, player_tracker)
-        p "----------State of Scores----------"
-        p "current_score: #{current_score}"
-        p "best_score before: #{best_score}"
-        p "move: #{move}"
-        if new_marker == marker #if the player is the computer player
-          if current_score > best_score
-            @best_move = move
-            best_score = current_score
-            p "best_score after: #{best_score}"
-          end
-        else
-          if current_score < worst_score
-            current_score
-          end
-        end
-      end
+        return score(board, iteration)
     end
-    return best_score
+
+    new_marker = player_tracker.even? ? 'O' : 'X'
+
+    scores = {}
+    board.get_available_positions.each do |move|
+        new_board = board.place_piece(move, new_marker)
+        scores[move] = minmax(new_board, player_tracker + 1, iteration + 1)
+    end
+
+    if player_tracker.even?
+        @best_move = scores.sort_by {|_key, value| value}.reverse.to_h.keys[0]
+    else
+        @best_move = scores.sort_by {|_key, value| value}.to_h.keys[0]
+    end
+
+    return scores[@best_move]
   end
 
-  def score(board)
+  def score(board, iteration)
     # "O", "X", "nil"
     if board.winner == "O" #'O' == 'O', 'nil' == 'O'
-      10
+      10.0 / iteration
     elsif board.winner == "X" #'X' != 'O', 'nil' != 'O'
-      -10
+      -10.0 / iteration
     elsif board.winner == nil
       0
     else
@@ -305,4 +285,3 @@ my_game = Game.new(Board, HumanPlayer, ComputerPlayer)
 p "yo"
 
 my_game.play
-
