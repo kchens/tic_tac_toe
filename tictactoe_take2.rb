@@ -16,6 +16,10 @@ class Board
     positions.all? {|position| position.is_a?(String) }
   end
 
+  def empty?
+    positions.all? {|position| position.is_a?(Integer) }
+  end
+
   def blank_spaces
     positions.select {|position| position.is_a?(Integer)}
   end
@@ -65,17 +69,15 @@ class Board
   end
 
   def winner
-    # VIEW.print_board(self)
-    # p "Is winner in self? #{@winner}"
     @winner
   end
 
   def tie?
-    if full? && !@winner
-      true
-    else
-      false
-    end
+    (full? && !@winner) ? true : false
+  end
+
+  def winning_piece?(marker)
+    @winner == marker
   end
 end
 
@@ -93,7 +95,6 @@ class Player
 end
 
 class HumanPlayer < Player
-
   def move(board)
     chosen_index = gets.to_i
     board.place_piece(chosen_index, marker)
@@ -102,41 +103,39 @@ end
 
 
 class ComputerPlayer < Player
-  def move(game_board)
-    minmax(game_board) #minmax to create @best_move
 
+  def move(game_board)
+    return game_board.place_piece([0,2,6,8].sample, marker) if game_board.empty?
+    minmax(game_board) #minmax to create @best_move
     game_board.place_piece(@best_move, marker)
   end
 
-  def minmax(board, player_tracker = 0, iteration = 0) #minmax
-    if board.game_over?
-        return score(board, iteration)
-    end
+  def minmax(board, player_tracker = 0, game_depth = 1) #minmax
+    return score(board, game_depth) if board.game_over?
 
     new_marker = player_tracker.even? ? 'O' : 'X'
 
     scores = {}
     board.get_available_positions.each do |move|
-        new_board = board.place_piece(move, new_marker)
-        scores[move] = minmax(new_board, player_tracker + 1, iteration + 1)
+      new_board = board.place_piece(move, new_marker)
+      scores[move] = minmax(new_board, player_tracker + 1, game_depth + 1)
     end
 
     if player_tracker.even?
-        @best_move = scores.sort_by {|_key, value| value}.reverse.to_h.keys[0]
+      @best_move = scores.max_by {|_key, value| value}[0]
     else
-        @best_move = scores.sort_by {|_key, value| value}.to_h.keys[0]
+      @best_move = scores.min_by {|_key, value| value}[0]
     end
 
     return scores[@best_move]
   end
 
-  def score(board, iteration)
-    # "O", "X", "nil"
-    if board.winner == "O" #'O' == 'O', 'nil' == 'O'
-      10.0 / iteration
-    elsif board.winner == "X" #'X' != 'O', 'nil' != 'O'
-      -10.0 / iteration
-    elsif board.winner == nil
+  def score(board, game_depth)
+    if board.winning_piece?("O")
+      10 - game_depth
+    elsif board.winning_piece?("X")
+      -10 - game_depth
+    elsif board.winning_piece?(nil)
       0
     else
       raise "ERROR"
@@ -168,8 +167,12 @@ class Game
     players[@current_player_id]
   end
 
-  def play
+  def play(start_human = true)
+    unless start_human
+      switch_players!
+    end
     VIEW.print_board(board)
+    VIEW.print_players_turn(current_player.marker)
     until board.game_over?
       @board = current_player.move(board)
       VIEW.print_board(board)
@@ -183,33 +186,6 @@ class Game
       end
     end
   end
-
-  # def game_over?(board)
-  #   @winner || tie?(board)
-  # end
-
-  # def winner?(board)
-  #   win_filter = Proc.new do |line|
-  #     unique_markers = line.uniq
-  #     if unique_markers.count == 1
-  #       @winner = unique_markers[0]
-  #       return true
-  #     end
-  #   end
-
-  #   board.rows.each(&win_filter)
-  #   board.columns.each(&win_filter)
-  #   board.diagonals.each(&win_filter)
-  #   return false
-  # end
-
-  # def tie?(board)
-  #   if board.full? && !@winner
-  #     true
-  #   else
-  #     false
-  #   end
-  # end
 
   def switch_players!
     @current_player_id = (@current_player_id == 0) ? 1 : 0
@@ -284,4 +260,4 @@ my_game = Game.new(Board, HumanPlayer, ComputerPlayer)
 # byebug
 p "yo"
 
-my_game.play
+my_game.play(false)
