@@ -5,11 +5,14 @@ class GameController < ApplicationController
     render json: {action: "game#index"}
   end
 
-  # def create
-  # end
+  def create
+    p params
+    render json: params
+  end
 
   def new
-    render json: {action: "game#new"}
+    my_game = Game.new(Board, HumanPlayer, ComputerPlayer)
+    render json: my_game.create_json_response
   end
 
   def play

@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
-  root 'game#new'
+  root 'static#index'
+  resources :game
   get '/play' => 'game#play'
 
   # The priority is based upon order of creation: first created -> highest priority.
