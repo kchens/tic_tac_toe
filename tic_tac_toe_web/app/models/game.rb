@@ -24,22 +24,23 @@ class Game
     players[@current_player_id]
   end
 
-  def play(start_human = true)
-    unless start_human
+  def play(start_human = "true")
+    unless start_human == "true"
       switch_players!
     end
-    VIEW.print_board(board)
-    VIEW.print_players_turn(current_player.marker)
+    # VIEW.print_board(board)
+    # VIEW.print_players_turn(current_player.marker)
     until board.game_over?
       @board = current_player.move(board)
-      VIEW.print_board(board)
+      # VIEW.print_board(board)
       if board.winner?
-        return VIEW.print_winner(board.winner)
+        # return VIEW.print_winner(board.winner)
       elsif board.tie?
-        return VIEW.print_tie
+        # return VIEW.print_tie
       else
         switch_players!
-        VIEW.print_players_turn(current_player.marker)
+        return create_json_response
+        # VIEW.print_players_turn(current_player.marker)
       end
     end
   end
