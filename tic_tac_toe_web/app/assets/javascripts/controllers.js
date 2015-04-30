@@ -1,25 +1,26 @@
-function Controller(boardModel, boardView) {
-  this.boardModel = boardModel;
-  this.boardView = boardView;
+function Controller(Board, View) {
+  this.board = Board;
+  this.view = View;
 }
 
 Controller.prototype = {
   run: function() {
-    this.initialize();
+    this.updateView();
     this.bindEventListeners();
   },
-  initialize: function() {
-    this.boardView.initialize();
-    this.boardModel.initialize();
+  updateView: function() {
+    this.view.clearView();
+    this.view.render( this.board.positions );
   },
   bindEventListeners: function() {
     var self = this;
-    $(this.boardView.startButtons).on('click', function(e){
+    $(this.view.startButtons).on('click', function(e){
       var gameType = $(e.target).data();
       self.startGame(gameType);
     })
   },
   startGame: function(gameType) {
+    var self = this;
     var request = $.ajax({
       type: 'POST',
       url: 'http://localhost:3000/game/',
@@ -28,12 +29,8 @@ Controller.prototype = {
     });
 
     request.done(function(serverData) {
-      console.log(serverData.winner);
-      console.log(serverData.tie);
-      console.log(serverData.players);
-      console.log(serverData.players.human_player);
-      console.log(serverData.players.computer_player);
-      console.log(serverData.board.positions);
+      self.board.initialize(serverData);
+      self.updateView();
     });
 
     request.fail(function(serverData) {
