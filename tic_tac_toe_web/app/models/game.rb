@@ -10,7 +10,6 @@ class Game
 
     @players = [human_player, computer_player]
     @current_player_id = 0
-    @start_human = nil
   end
 
   def board
@@ -32,13 +31,13 @@ class Game
 
     @board = current_player.move(board)
 
-    return get_json_response if board.game_over?
-    return get_json_response if board.winner?
-    return get_json_response if board.tie?
+    return json_response if board.game_over?
+    return json_response if board.winner?
+    return json_response if board.tie?
 
     switch_players!
     set_json_response(start_human)
-    return get_json_response
+    return json_response
   end
 
   def switch_players!
@@ -60,8 +59,6 @@ class Game
     }
   end
 
-  def get_json_response
-    @json_response
-  end
+  attr_reader :json_response
 
 end

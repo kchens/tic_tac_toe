@@ -11,8 +11,8 @@ class GameController < ApplicationController
     my_game = Game.new(Board, HumanPlayer, ComputerPlayer)
     my_game.play(start_human)
 
-    p my_game.get_json_response
-    render json: my_game.get_json_response
+    p my_game.json_response
+    render json: my_game.json_response
   end
 
 
@@ -21,7 +21,7 @@ class GameController < ApplicationController
     p params
     my_game = Game.new(Board, HumanPlayer, ComputerPlayer)
     my_game.set_json_response("false")
-    render json: my_game.get_json_response
+    render json: my_game.json_response
   end
 
   # def edit
