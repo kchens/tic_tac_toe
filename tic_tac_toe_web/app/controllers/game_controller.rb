@@ -16,11 +16,11 @@ class GameController < ApplicationController
     render json: my_game.create_json_response
   end
 
-  # def new
-  #   p params
-  #   my_game = Game.new(Board, HumanPlayer, ComputerPlayer)
-  #   render json: my_game.create_json_response
-  # end
+  def new
+    p params
+    my_game = Game.new(Board, HumanPlayer, ComputerPlayer)
+    render json: my_game.create_json_response
+  end
 
   # def edit
   # end
