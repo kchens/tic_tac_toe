@@ -6,10 +6,10 @@ function View() {
 }
 
 View.prototype = {
-  clearView: function() {
+  clearBoard: function() {
     this.boxes.empty();
   },
-  render: function(boardPositions) {
+  renderBoard: function(boardPositions) {
     this.boxes.each(function(index) {
       var positionValue = boardPositions[index];
       if (typeof positionValue == "string" || positionValue instanceof String) {

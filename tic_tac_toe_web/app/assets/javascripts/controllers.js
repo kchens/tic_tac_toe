@@ -9,8 +9,8 @@ Controller.prototype = {
     this.bindEventListeners();
   },
   updateView: function() {
-    this.view.clearView();
-    this.view.render( this.board.positions );
+    this.view.clearBoard();
+    this.view.renderBoard( this.board.positions );
   },
   bindEventListeners: function() {
     var self = this;
