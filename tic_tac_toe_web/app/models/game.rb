@@ -26,12 +26,7 @@ class Game #< ActiveRecord::Base
   end
 
   def move(chosen_index = nil)
-    #
-    p "in move------------"
-    pp current_player
     @board = current_player.move(board, chosen_index)
-    pp @board
-    p "out move------------"
     switch_players!
     set_json_response
   end
@@ -43,14 +38,8 @@ class Game #< ActiveRecord::Base
       switch_players!
     end
 
-    @board = current_player.move(board)
-
-    return json_response if board.game_over?
-    return json_response if board.winner?
-    return json_response if board.tie?
-
-    switch_players!
-    set_json_response
+    over?
+    move
     return json_response
   end
 
@@ -58,6 +47,11 @@ class Game #< ActiveRecord::Base
     @current_player_id = (@current_player_id == 0) ? 1 : 0
   end
 
+  def over?
+    return json_response if board.game_over?
+    return json_response if board.winner?
+    return json_response if board.tie?
+  end
 
   def set_json_response
     @json_response =

@@ -37,11 +37,7 @@ class GameController < ApplicationController
   def edit
     # do nothing with the game id for now
     chosen_index = params['chosenIndex'].to_i
-    p "----------"
-    pp @@my_game
-    p @@my_game.move(chosen_index)
-    p "----------"
-    pp @@my_game.json_response
+    @@my_game.move(chosen_index)
     render json: @@my_game.json_response
   end
 

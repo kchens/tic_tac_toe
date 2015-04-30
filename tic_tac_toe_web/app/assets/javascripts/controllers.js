@@ -49,16 +49,15 @@ Controller.prototype = {
     return this.board.gameStatus.over;
   },
   addMove: function() {
-    var chosenIndex;
-    var data;
     var self = this;
+
     this.view.boxes.on('click', function(e){
       $(e.target).text( self.board.players.currentPlayer );
+      var chosenIndex;
+      var chosenIndexData;
+
       chosenIndex = e.target.id;
-
       chosenIndexData = {'chosenIndex': chosenIndex };
-
-      console.log(chosenIndexData);
 
       $.ajax({
         url: 'http://localhost:3000/game/+' + self.numGames +'/edit',
@@ -67,9 +66,7 @@ Controller.prototype = {
         data: chosenIndexData
       })
       .done( function(serverData) {
-        console.log("-------");
-        console.log(serverData.board.positions);
-        console.log("-------");
+        self.board.initialize(serverData);
       })
       .fail( function(serverDat) {
         console.log(serverData);
