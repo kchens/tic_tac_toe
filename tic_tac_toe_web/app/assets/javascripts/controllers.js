@@ -37,4 +37,10 @@ Controller.prototype = {
       console.log("Failed to Start Game");
     });
   },
+  isGameOver: function() {
+    return this.board.gameStatus.over;
+  },
+  addMove: function() {
+
+  }
 }

@@ -46,15 +46,20 @@ class Game
 
 
   def set_json_response(start_human)
-    @json_response = {
+    @json_response =
+    {
       startHuman: start_human,
-      winner: board.winner,
-      tie: board.tie?,
+      gameStatus:
+        {
+          over: board.game_over?,
+          winner: board.winner,
+          tie: board.tie?,
+        },
       players:
-      {
-        humanPlayer: human_player.marker,
-        computerPlayer: computer_player.marker
-      },
+        {
+          humanPlayer: human_player.marker,
+          computerPlayer: computer_player.marker
+        },
       board: board
     }
   end
