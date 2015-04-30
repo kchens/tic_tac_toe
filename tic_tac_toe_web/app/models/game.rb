@@ -10,6 +10,7 @@ class Game
 
     @players = [human_player, computer_player]
     @current_player_id = 0
+    @start_human = nil
   end
 
   def board
@@ -28,37 +29,39 @@ class Game
     unless start_human == "true"
       switch_players!
     end
-    # VIEW.print_board(board)
-    # VIEW.print_players_turn(current_player.marker)
-    until board.game_over?
-      @board = current_player.move(board)
-      # VIEW.print_board(board)
-      if board.winner?
-        # return VIEW.print_winner(board.winner)
-      elsif board.tie?
-        # return VIEW.print_tie
-      else
-        switch_players!
-        return create_json_response
-        # VIEW.print_players_turn(current_player.marker)
-      end
-    end
+
+    @board = current_player.move(board)
+
+    return get_json_response if board.game_over?
+    return get_json_response if board.winner?
+    return get_json_response if board.tie?
+
+    switch_players!
+    set_json_response(start_human)
+    return get_json_response
   end
 
   def switch_players!
     @current_player_id = (@current_player_id == 0) ? 1 : 0
   end
 
-  def create_json_response
-    {
+
+  def set_json_response(start_human)
+    @json_response = {
+      startHuman: start_human,
       winner: board.winner,
+      tie: board.tie?,
       players:
       {
-        human_player: human_player.marker,
-        computer_player: computer_player.marker
+        humanPlayer: human_player.marker,
+        computerPlayer: computer_player.marker
       },
       board: board
     }
+  end
+
+  def get_json_response
+    @json_response
   end
 
 end

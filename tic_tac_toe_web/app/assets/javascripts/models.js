@@ -1,10 +1,13 @@
 function BoardModel() {
-  this.positions;
   this.startHuman;
+  this.winner;
+  this.tie;
+  this.players;
+  this.boardPositions;
 }
 
 BoardModel.prototype = {
   initialize: function() {
-    this.positions = [0,1,2,3,4,5,6,7,8];
+    this.boardPositions = [0,1,2,3,4,5,6,7,8];
   }
 }
