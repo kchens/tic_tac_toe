@@ -59,6 +59,8 @@ Controller.prototype = {
       chosenIndex = e.target.id;
       chosenIndexData = {'chosenIndex': chosenIndex };
 
+      self.view.setDataToFalse(chosenIndex);
+
       $.ajax({
         url: 'http://localhost:3000/game/+' + self.numGames +'/edit',
         type: 'GET',

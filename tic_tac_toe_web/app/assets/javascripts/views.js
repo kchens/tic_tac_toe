@@ -2,6 +2,7 @@ function View() {
   this.boxes = $('li');
   // this.computerStart = $('#computer-start');
   // this.humanStart = $('#human-start');
+
   this.startButtons = $('#start-game');
 }
 
@@ -17,4 +18,19 @@ View.prototype = {
       };
     });
   },
+  resetAllData: function() {
+    this.boxes.each(function(index) {
+      $(this).attr('data-open', 'true')
+    })
+  },
+  setDataToFalse: function(chosenIndex) {
+    $('#' + chosenIndex).attr('data-open', false);
+  },
+  removeEventListeners: function() {},
+  addEventListeners: function() {}
+  // availablePositions: function(chosenIndex) {
+  //   var newPositions = [];
+  //   $('#' + chosenIndex).attr('data-open', false);
+  // },
+  // removeEventListeners: function(){}
 }

@@ -22,5 +22,19 @@ Board.prototype = {
     console.log(this.players);
     console.log(this.players.currentPlayer);
     console.log(this.positions);
+
+    this.getOpenPositions();
+  },
+  getOpenPositions: function(positions) {
+    var self = this;
+    self.openPositions = [];
+    self.positions.forEach( function(position) {
+      if ( typeof position == "number" ) {
+        self.openPositions.push( position )
+      }
+    });
+    console.log("----------")
+    console.log(self.openPositions);
+    return self.openPositions;
   },
 }
