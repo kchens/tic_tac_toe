@@ -6,12 +6,15 @@ class GameController < ApplicationController
   end
 
   def create
-    human_first = params["start_human"]
+    p "-----------------"
+    p params
+    p "-----------------"
+    start_human = params['startHuman']
 
-    p human_first
+    p start_human
     # VIEW = View.new
     my_game = Game.new(Board, HumanPlayer, ComputerPlayer)
-    my_game.play(human_first)
+    my_game.play(start_human)
     p my_game.create_json_response
     render json: my_game.create_json_response
   end

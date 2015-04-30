@@ -4,13 +4,36 @@ function Controller(boardModel, boardView) {
 }
 
 Controller.prototype = {
-  initialize: function() {
-    // console.log("In controller");
-    // console.log("board Model positions: " + this.boardModel.positions);
-    // console.log("board View boxes: " + this.boardView.boxes);
-    this.boardView.initialize();
-  },
   run: function() {
     this.initialize();
-  }
+    this.bindEventListeners();
+  },
+  initialize: function() {
+    this.boardView.initialize();
+    this.boardModel.initialize();
+  },
+  bindEventListeners: function() {
+    var self = this;
+    $(this.boardView.startButtons).on('click', function(e){
+      var gameType = $(e.target).data();
+      self.startGame(gameType);
+    })
+  },
+  startGame: function(gameType) {
+
+    var request = $.ajax({
+      type: 'POST',
+      url: 'http://localhost:3000/game/',
+      dataType: 'json',
+      data: gameType
+    });
+
+    request.done(function(serverData) {
+      console.log("Success:" + serverData)
+    });
+
+    request.fail(function(res) {
+      console.log('create reminder fail!')
+    });
+  },
 }
