@@ -5,9 +5,9 @@ function Controller(boardModel, boardView) {
 
 Controller.prototype = {
   initialize: function() {
-    console.log("In controller");
-    console.log("board Model positions: " + this.boardModel.positions);
-    console.log("board View boxes: ");
+    // console.log("In controller");
+    // console.log("board Model positions: " + this.boardModel.positions);
+    // console.log("board View boxes: " + this.boardView.boxes);
     this.boardView.initialize();
   },
   run: function() {
