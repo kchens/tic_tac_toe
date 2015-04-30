@@ -1,4 +1,4 @@
-class Board
+class Board #< ActiveRecord::Base
   # has_one :game
 
   attr_reader :positions

@@ -20,6 +20,7 @@ Board.prototype = {
     // console.log(this.winner);
     // console.log(this.tie);
     console.log(this.players);
+    console.log(this.players.currentPlayer);
     console.log(this.positions);
   },
 }

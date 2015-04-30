@@ -1,5 +1,6 @@
-class Game
+class Game #< ActiveRecord::Base
   # belongs_to :board
+
   attr_reader :human_player, :computer_player
 
   def initialize(board_factory, human_player_factory, computer_player_factory)
@@ -24,8 +25,21 @@ class Game
     players[@current_player_id]
   end
 
+  def move(chosen_index = nil)
+    #
+    p "in move------------"
+    pp current_player
+    @board = current_player.move(board, chosen_index)
+    pp @board
+    p "out move------------"
+    switch_players!
+    set_json_response
+  end
+
   def play(start_human = "true")
-    unless start_human == "true"
+    @start_human = (start_human == "true") ? true : false
+
+    unless @start_human == true
       switch_players!
     end
 
@@ -36,7 +50,7 @@ class Game
     return json_response if board.tie?
 
     switch_players!
-    set_json_response(start_human)
+    set_json_response
     return json_response
   end
 
@@ -45,10 +59,10 @@ class Game
   end
 
 
-  def set_json_response(start_human)
+  def set_json_response
     @json_response =
     {
-      startHuman: start_human,
+      startHuman: @start_human,
       gameStatus:
         {
           over: board.game_over?,
@@ -57,6 +71,7 @@ class Game
         },
       players:
         {
+          currentPlayer: current_player.marker,
           humanPlayer: human_player.marker,
           computerPlayer: computer_player.marker
         },

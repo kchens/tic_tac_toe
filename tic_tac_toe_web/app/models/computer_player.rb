@@ -1,6 +1,6 @@
 class ComputerPlayer < Player
 
-  def move(game_board)
+  def move(game_board, chosen_index = nil)
     return game_board.place_piece([0,2,6,8].sample, marker) if game_board.empty?
     minmax(game_board) #minmax to create @best_move
     game_board.place_piece(@best_move, marker)

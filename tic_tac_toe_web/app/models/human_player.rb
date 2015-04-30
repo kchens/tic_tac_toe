@@ -8,8 +8,7 @@ class HumanPlayer < Player
     @marker = marker
   end
 
-  def move(board)
-    chosen_index = gets.to_i
+  def move(board, chosen_index = nil)
     board.place_piece(chosen_index, marker)
   end
 end
