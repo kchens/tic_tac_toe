@@ -36,9 +36,9 @@ Controller.prototype = {
       self.board.initialize(serverData);
       self.updateView();
 
-      if ( !self.board.gameStatus.over) {
+      // if ( !self.board.gameStatus.over) {
         self.addMove();
-      }
+      // }
 
     })
     .fail(function(serverData) {
@@ -60,6 +60,7 @@ Controller.prototype = {
       chosenIndexData = {'chosenIndex': chosenIndex };
 
       self.view.setDataToFalse(chosenIndex);
+      self.view.removeEventListener(chosenIndex);
 
       $.ajax({
         url: 'http://localhost:3000/game/+' + self.numGames +'/edit',
@@ -69,6 +70,7 @@ Controller.prototype = {
       })
       .done( function(serverData) {
         self.board.initialize(serverData);
+        self.updateView();
       })
       .fail( function(serverDat) {
         console.log(serverData);

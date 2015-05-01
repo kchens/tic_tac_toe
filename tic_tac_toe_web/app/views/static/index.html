@@ -1,6 +1,6 @@
-<section>
+<!-- <section>
   <div id="first-row">
-    <li id='0' data-open='true'>SOME</li>
+    <li id='0' data-open='false'>SOME</li>
     <li id='1' data-open='true'></li>
     <li id='2' data-open='true'></li>
   </div>
@@ -12,9 +12,70 @@
   <div id="third-row">
     <li id='6' data-open='true'></li>
     <li id='7' data-open='true'></li>
-    <li id='8' data-open='true'>THING</li>
+    <li id='8' data-open='false'>THING</li>
   </div>
-</section>
+</section> -->
+
+
+<div id="board">
+    <table>
+      <tr id="row1">
+        <td class="square"   id='0' data-open='false'></td>
+        <td class="square v" id='1' data-open='false'></td>
+        <td class="square"   id='2' data-open='false'></td>
+      </tr>
+      <tr id="row2">
+        <td class="square h"    id='3' data-open='false'></td>
+        <td class="square v h"  id='4' data-open='false'></td>
+        <td class="square h"    id='5' data-open='false'></td>
+      </tr>
+      <tr id="row3">
+        <td class="square"    id='6' data-open='false'></td>
+        <td class="square v"  id='7' data-open='false'></td>
+        <td class="square"    id='8' data-open='false'></td>
+      </tr>
+    </table>
+  </div>
+
+
+<!-- <div class="board">
+    <div class="lines">
+        <div class="line">
+            <div class='cell' id='0' data-open='false'>
+                <div class="cell-content"></div>
+            </div>
+            <div class='cell' id='1' data-open='false'>
+                <div class="cell-content"></div>
+            </div>
+            <div class='cell' id='2' data-open='false'>
+                <div class="cell-content"></div>
+            </div>
+        </div>
+        <div class="divne">
+            <div class='cell' id='3' data-open='false'>
+                <div class="cell-content"></div>
+            </div>
+            <div class='cell' id='4' data-open='false'>
+                <div class="cell-content"></div>
+            </div>
+            <div class='cell' id='6' data-open='false'>
+                <div class="cell-content"></div>
+            </div>
+        </div>
+        <div class="divne">
+            <div class='cell' id='6' data-open='false'>
+                <div class="cell-content"></div>
+            </div>
+            <div class='cell' id='7' data-open='false'>
+                <div class="cell-content"></div>
+            </div>
+            <div class='cell' id='8' data-open='false'>
+                <div class="cell-content"></div>
+            </div>
+        </div>
+    </div>
+</div> -->
+
 <div id="start-game">
   <button id="computer-start" data-start-human="false">Start Computer</button>
   <button id="human-start" data-start-human="true">Start Human</button>

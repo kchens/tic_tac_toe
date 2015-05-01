@@ -3,7 +3,7 @@ class Board #< ActiveRecord::Base
 
   attr_reader :positions
 
-  def initialize(positions = nil)
+def initialize(positions = nil)
     @positions = positions || Array.new(9) {|num| num }
   end
 

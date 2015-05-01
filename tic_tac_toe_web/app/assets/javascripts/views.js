@@ -1,5 +1,5 @@
 function View() {
-  this.boxes = $('li');
+  this.boxes = $('td');
   // this.computerStart = $('#computer-start');
   // this.humanStart = $('#human-start');
 
@@ -9,12 +9,16 @@ function View() {
 View.prototype = {
   clearBoard: function() {
     this.boxes.empty();
+    this.resetAllData();
   },
   renderBoard: function(boardPositions) {
-    this.boxes.each(function(index) {
+    var self = this;
+    self.boxes.each(function(index) {
       var positionValue = boardPositions[index];
       if (typeof positionValue == "string" || positionValue instanceof String) {
         $(this).text( positionValue );
+        console.log("chosen index" + index)
+        self.setDataToFalse(index);
       };
     });
   },
@@ -26,8 +30,10 @@ View.prototype = {
   setDataToFalse: function(chosenIndex) {
     $('#' + chosenIndex).attr('data-open', false);
   },
-  removeEventListeners: function() {},
-  addEventListeners: function() {}
+  removeEventListener: function(chosenIndex) {
+    $('#' + chosenIndex).off('click')
+  },
+  addEventListeners: function(boardOpenPositions) {}
   // availablePositions: function(chosenIndex) {
   //   var newPositions = [];
   //   $('#' + chosenIndex).attr('data-open', false);
