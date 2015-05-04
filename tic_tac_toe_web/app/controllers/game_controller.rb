@@ -13,8 +13,14 @@ class GameController < ApplicationController
     start_human = params['startHuman']
 
     @@my_game = Game.new(Board, HumanPlayer, ComputerPlayer)
-    @@my_game.play(start_human)
 
+    if start_human == 'true'
+      p "--------in play human"
+      @@my_game.play_human
+    else
+      p "--------in play computer"
+      @@my_game.play(start_human)
+    end
     pp @@my_game.json_response
     # if @@my_game.save
       # p "SAVED-------"

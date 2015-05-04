@@ -15,12 +15,12 @@ Board.prototype = {
     this.players    = startGameData.players;
     this.positions = startGameData.board.positions;
 
-    console.log(this.startHuman);
+    console.log("start human " + this.startHuman);
     console.log(this.gameStatus);
     // console.log(this.winner);
     // console.log(this.tie);
     console.log(this.players);
-    console.log(this.players.currentPlayer);
+    console.log("current player " + this.players.currentPlayer);
     console.log(this.positions);
 
     this.updateOpenPositions();

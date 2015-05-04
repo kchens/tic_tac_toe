@@ -44,6 +44,13 @@ class Game #< ActiveRecord::Base
     return json_response
   end
 
+  def play_human
+    @start_human = true
+    switch_players!
+    set_json_response
+    return json_response
+  end
+
   def switch_players!
     @current_player_id = (@current_player_id == 0) ? 1 : 0
   end
