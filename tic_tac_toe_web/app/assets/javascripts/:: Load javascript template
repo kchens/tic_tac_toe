@@ -1,0 +1,11 @@
+// Load javascript template
+// On button click, start human/computer game
+// // get the right server response
+// // render ther server response with javascript
+// // render the relevant move
+
+// // make sure UI responds with the right code
+// // make sure you can't click on the same box twice
+// Keep playing until game_over
+// Display winner
+// Restart game

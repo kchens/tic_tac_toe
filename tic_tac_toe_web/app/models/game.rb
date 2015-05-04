@@ -28,6 +28,7 @@ class Game #< ActiveRecord::Base
   def move(chosen_index = nil)
     @board = current_player.move(board, chosen_index)
     switch_players!
+
     set_json_response
   end
 
@@ -54,8 +55,7 @@ class Game #< ActiveRecord::Base
   end
 
   def set_json_response
-    @json_response =
-    {
+    @json_response = {
       startHuman: @start_human,
       gameStatus:
         {

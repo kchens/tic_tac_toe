@@ -36,9 +36,7 @@ Controller.prototype = {
       self.board.initialize(serverData);
       self.updateView();
 
-      // if ( !self.board.gameStatus.over) {
-        self.addMove();
-      // }
+      self.addMove();
 
     })
     .fail(function(serverData) {
@@ -63,7 +61,7 @@ Controller.prototype = {
       self.view.removeEventListener(chosenIndex);
 
       $.ajax({
-        url: 'http://localhost:3000/game/+' + self.numGames +'/edit',
+        url: 'http://localhost:3000/game/' + self.numGames +'/edit',
         type: 'GET',
         dataType: 'json',
         data: chosenIndexData
@@ -71,15 +69,51 @@ Controller.prototype = {
       .done( function(serverData) {
         self.board.initialize(serverData);
         self.updateView();
+
+        self.addComputerMove();
+
+        //
+        console.log("Is there a winner?--------" + self.board.thereIsAWinner());
+        if ( self.board.thereIsAWinner() ) {
+          alert("Winner is: " + self.board.winner());
+        } else {
+          alert("No winner: " + self.board.winner());
+        }
+        //
+
       })
       .fail( function(serverDat) {
-        console.log(serverData);
+        alert("Failed to render HUMAN move.");
       });
     });
+  },
+  addComputerMove: function() {
+    var self = this;
+    var fakeChosenIndexData = {'chosenIndex': null };
+
+    $.ajax({
+      url: 'http://localhost:3000/game/' + self.numGames +'/edit',
+      type: 'GET',
+      dataType: 'json',
+      data: fakeChosenIndexData
+    })
+    .done( function(serverData) {
+      self.board.initialize(serverData);
+      self.updateView();
 
 
-    // make ajax request to back-end
-    // get back new server data
-    // render it
+      //
+      console.log("Is there a winner?--------" + self.board.thereIsAWinner());
+      if ( self.board.thereIsAWinner() ) {
+        alert("Winner is: " + self.board.winner());
+      } else {
+        alert("No winner: " + self.board.winner());
+      }
+      //
+
+    })
+    .fail( function(serverData) {
+      alert("Failed to render COMPUTER move.");
+    })
   }
 }

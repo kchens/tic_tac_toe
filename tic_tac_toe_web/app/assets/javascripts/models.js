@@ -37,4 +37,14 @@ Board.prototype = {
     console.log(self.openPositions);
     return self.openPositions;
   },
+  thereIsAWinner: function() {
+    return this.gameStatus.over;
+  },
+  winner: function() {
+    if ( this.thereIsAWinner() ) {
+      return this.gameStatus.winner;
+    } else {
+      return this.gameStatus.winner;
+    }
+  }
 }
