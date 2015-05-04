@@ -109,9 +109,9 @@ Controller.prototype = {
   alertWinnerOrTie: function() {
     if ( this.board.gameIsOver() ) {
       if ( this.board.thereIsATie() ) {
-        alert("Tie: " + this.board.thereIsATie() );
+        // alert("Tie: " + this.board.thereIsATie() );
       }
-      alert("Winner is: " + this.board.winner());
+      // alert("Winner is: " + this.board.winner());
       this.view.removeListenersFromAllPositions();
       this.view.renderWinner(this.board.winner(), this.board.thereIsATie());
     }

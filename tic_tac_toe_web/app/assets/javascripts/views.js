@@ -11,8 +11,8 @@ function View() {
   this.kanyeWinImg = $('#kanye-win');
   this.taylorWinImg = $('#taylor-win');
 
-  this.kanyeImgs = "<img class='kanye' src='https://pbs.twimg.com/profile_images/417832296993943552/I6WmfoY5.jpeg'>"
-  this.taylorImgs = "<img class='taylor' src='https://33.media.tumblr.com/avatar_30a0960139db_128.png'>"
+  this.kanyeImgs = "<img class='kanye' src='https://raw.githubusercontent.com/kchens/kchens.github.io/master/images/ttt-kanye.png'>"
+  this.taylorImgs = "<img class='taylor' src='https://raw.githubusercontent.com/kchens/kchens.github.io/master/images/ttt-taylor.png'>"
 }
 
 View.prototype = {
