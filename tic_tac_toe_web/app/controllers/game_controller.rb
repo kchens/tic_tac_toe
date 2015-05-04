@@ -15,20 +15,13 @@ class GameController < ApplicationController
     @@my_game = Game.new(Board, HumanPlayer, ComputerPlayer)
 
     if start_human == 'true'
-      p "--------in play human"
       @@my_game.play_human
     else
-      p "--------in play computer"
-      @@my_game.play(start_human)
+      @@my_game.play_computer
     end
-    pp @@my_game.json_response
-    # if @@my_game.save
-      # p "SAVED-------"
-      p @@my_game.json_response
-      render json: @@my_game.json_response
-    # else
-      # p "ERORRRR"
-    # end
+
+    @@my_game.json_response
+    render json: @@my_game.json_response
   end
 
 

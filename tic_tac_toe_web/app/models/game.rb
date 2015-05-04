@@ -32,13 +32,8 @@ class Game #< ActiveRecord::Base
     set_json_response
   end
 
-  def play(start_human = "true")
-    @start_human = (start_human == "true") ? true : false
-
-    unless @start_human == true
-      switch_players!
-    end
-
+  def play_computer
+    switch_players!
     over?
     move
     return json_response
