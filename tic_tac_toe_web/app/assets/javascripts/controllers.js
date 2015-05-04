@@ -10,6 +10,7 @@ Controller.prototype = {
     this.bindEventListeners();
   },
   updateView: function() {
+    this.view.board.show();
     this.view.clearBoard();
     this.view.hideWinner();
     // this.view.renderBoard( this.board.positions );
@@ -41,14 +42,9 @@ Controller.prototype = {
 
       self.board.initialize(serverData);
       self.view.changeButtonsToRestart();
+      self.updateView();
+      self.addMove()
 
-      if (self.board.startHuman === true) {
-        self.addMove();
-      } else {
-        self.updateView();
-
-        self.addMove();
-      }
     })
     .fail(function(serverData) {
       console.log("Failed to Start Game");
@@ -113,11 +109,12 @@ Controller.prototype = {
   },
   alertWinnerOrTie: function() {
     if ( this.board.gameIsOver() ) {
-      if ( this.board.thereIsATie() ) {
+      // if ( this.board.thereIsATie() ) {
         // alert("Tie: " + this.board.thereIsATie() );
-      }
+      // }
       // alert("Winner is: " + this.board.winner());
       this.view.removeListenersFromAllPositions();
+      this.view.board.hide();
       this.view.renderWinner(this.board.winner(), this.board.thereIsATie());
     }
   },

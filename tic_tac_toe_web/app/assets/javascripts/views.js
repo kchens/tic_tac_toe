@@ -1,9 +1,12 @@
 function View() {
+  this.board = $('#board');
   this.boxes = $('td');
   // this.computerStart = $('#computer-start');
   // this.humanStart = $('#human-start');
 
   this.startButtons = $('#start-game').children();
+  this.startComputerButton = $('#computer-start')
+  this.startHumanButton = $('#human-start')
 
   this.gameOverDiv = $('#game-over');
   this.winnerHeading = $('#winner');
@@ -74,8 +77,8 @@ View.prototype = {
   addEventListeners: function(boardOpenPositions) {},
   changeButtonsToRestart: function() {
     console.log("Start buttons------" + this.startButtons);
-    $(this.startButtons[0]).text("Restart Computer");
-    $(this.startButtons[1]).text("Restart Human");
+    this.startComputerButton.text("Restart Computer");
+    this.startHumanButton.text("Restart Human");
   },
   renderWinner: function(winningMarker, tieBoolean) {
     this.gameOverDiv.show();

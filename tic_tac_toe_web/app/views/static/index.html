@@ -1,14 +1,17 @@
-<div>
-  <h1>Tic-Tac-Taylor?</h1>
-  <h2>Can you Taylor Swift <i>finally</i> beat Kanye?</h2>
+<div class="row">
+  <div class="col-md-offset-4 col-md-4">
+    <h1>TIC-TAC-TAYLOR</h1>
+    <h3>Can Taylor Swift <i>finally</i> beat Kanye?</h3>
+  </div>
 </div>
 
-<div id="board">
+<div class="row" id="board">
+  <div class="col-md-offset-4 col-md-4">
     <table>
       <tr id="row1">
         <td class="square"   id='0' data-open='false'></td>
-        <td class="square v" id='1' data-open='false'><img class='kanye' src="https://pbs.twimg.com/profile_images/417832296993943552/I6WmfoY5.jpeg"></td>
-        <td class="square"   id='2' data-open='false'><img class='taylor' src="https://33.media.tumblr.com/avatar_30a0960139db_128.png"></td>
+        <td class="square v" id='1' data-open='false'><img class='kanye' src='https://raw.githubusercontent.com/kchens/kchens.github.io/master/images/ttt-kanye.png'></td>
+        <td class="square"   id='2' data-open='false'><img class='taylor' src='https://raw.githubusercontent.com/kchens/kchens.github.io/master/images/ttt-taylor.png'></td>
       </tr>
       <tr id="row2">
         <td class="square h"    id='3' data-open='false'></td>
@@ -22,17 +25,27 @@
       </tr>
     </table>
   </div>
-
-
-<div id="start-game">
-  <button id="computer-start" data-start-human="false">Start Computer</button>
-  <button id="human-start" data-start-human="true">Start Human</button>
 </div>
 
-<div id='game-over'>
-  <h1 id='winner'>I WON! I'M THE GREATEST TIC-TAC-TOE PLAYER OF THE UNIVERSE!!</h1>
-  <h1 id='tie'>Ties are in MY favor! I AM <em>STILL</em> THE GREATEST:  </h1>
-  <img id='kanye-win' src="https://raw.githubusercontent.com/kchens/kchens.github.io/master/images/ttt-kanye-wins.png">
+<div class="row" id='game-over'>
+  <div class="col-md-offset-4 col-md-4">
+    <h1 id='winner'>I WON! I'M THE GREATEST TIC-TAC-TOE PLAYER OF THE UNIVERSE!!</h1>
+    <h1 id='tie'>Ties are in MY favor! I AM <em>STILL</em> THE GREATEST:  </h1>
+    <img id='kanye-win' src="https://raw.githubusercontent.com/kchens/kchens.github.io/master/images/ttt-kanye-wins.png">
 
-  <img id='taylor-win' src="https://33.media.tumblr.com/avatar_30a0960139db_128.png">
+    <img id='taylor-win' src="https://33.media.tumblr.com/avatar_30a0960139db_128.png">
+  </div>
+</div>
+
+<div class="row" id="start-game">
+  <div class="col-md-offset-4 col-md-4">
+    <div id='kanye-start'>
+      <img class='kanye' src='https://raw.githubusercontent.com/kchens/kchens.github.io/master/images/ttt-kanye.png'>
+      <button id="computer-start" data-start-human="false">Start Computer</button>
+    </div>
+    <div id='taylor-start'>
+      <img class='taylor' src='https://raw.githubusercontent.com/kchens/kchens.github.io/master/images/ttt-taylor.png'>
+      <button id="human-start" data-start-human="true">Start Human</button>
+    </div>
+  </div>
 </div>
