@@ -4,7 +4,12 @@ function View() {
   // this.humanStart = $('#human-start');
 
   this.startButtons = $('#start-game').children();
-  this.winningDiv = $('#winner');
+
+  this.gameOverDiv = $('#game-over');
+  this.winnerHeading = $('#winner');
+  this.tieHeading = $('#tie');
+  this.kanyeImg = $('#kanye');
+  this.taylorImg = $('#taylor');
 }
 
 View.prototype = {
@@ -56,11 +61,26 @@ View.prototype = {
     $(this.startButtons[0]).text("Restart Computer");
     $(this.startButtons[1]).text("Restart Human");
   },
-  renderWinner: function() {
-    this.winningDiv.show();
+  renderWinner: function(winningMarker, tieBoolean) {
+    this.gameOverDiv.show();
+    if ( winningMarker == "X" ) {
+      this.winnerHeading.show();
+      this.taylorImg.show();
+    } else if ( winningMarker == "O") {
+      this.winnerHeading.show();
+      this.kanyeImg.show();
+    } else if ( tieBoolean ) {
+      this.tieHeading.show();
+      this.kanyeImg.show();
+    }
   },
   hideWinner: function() {
-    this.winningDiv.hide();
+    this.gameOverDiv.hide();
+    this.kanyeImg.hide();
+    this.taylorImg.hide();
+
+    this.winnerHeading.hide();
+    this.tieHeading.hide();
   }
 
   // availablePositions: function(chosenIndex) {
