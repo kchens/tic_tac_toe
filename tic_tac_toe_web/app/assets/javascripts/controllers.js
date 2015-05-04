@@ -22,6 +22,7 @@ Controller.prototype = {
     var self = this;
 
     $(this.view.startButtons).on('click', function(e){
+      self.view.clearBoard();
       var gameType = $(e.target).data();
       self.startGame(gameType);
     });
