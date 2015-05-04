@@ -24,7 +24,6 @@ class GameController < ApplicationController
     render json: @@my_game.json_response
   end
 
-
   # used for checking json format
   def new
     p params
@@ -40,14 +39,5 @@ class GameController < ApplicationController
     @@my_game.move(chosen_index)
     render json: @@my_game.json_response
   end
-
-  # def show
-  # end
-
-  # def update
-  # end
-
-  # def destroy
-  # end
 
 end

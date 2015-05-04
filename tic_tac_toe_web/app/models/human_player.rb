@@ -1,6 +1,4 @@
 class HumanPlayer < Player
-  # has_many :games
-  # has_many :boards, through: :games
 
   attr_reader :marker
 

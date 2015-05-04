@@ -1,5 +1,4 @@
-class Game #< ActiveRecord::Base
-  # belongs_to :board
+class Game
 
   attr_reader :human_player, :computer_player
 

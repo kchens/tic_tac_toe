@@ -1,9 +1,8 @@
-class Board #< ActiveRecord::Base
-  # has_one :game
+class Board
 
   attr_reader :positions
 
-def initialize(positions = nil)
+  def initialize(positions = nil)
     @positions = positions || Array.new(9) {|num| num }
   end
 
