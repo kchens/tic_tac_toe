@@ -11,6 +11,7 @@ Controller.prototype = {
   },
   updateView: function() {
     this.view.clearBoard();
+    this.view.hideWinner();
     this.view.renderBoard( this.board.positions );
     console.log("Before remove all event listeners---");
     this.view.removeListenersFromTakenPositions(this.board.positions);
@@ -111,6 +112,7 @@ Controller.prototype = {
       }
       alert("Winner is: " + this.board.winner());
       this.view.removeListenersFromAllPositions();
+      this.view.renderWinner();
     } else {
       alert("Game Not Over. Winner: " + this.board.winner());
     }

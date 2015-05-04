@@ -4,6 +4,7 @@ function View() {
   // this.humanStart = $('#human-start');
 
   this.startButtons = $('#start-game').children();
+  this.winningDiv = $('#winner');
 }
 
 View.prototype = {
@@ -54,6 +55,12 @@ View.prototype = {
     console.log("Start buttons------" + this.startButtons);
     $(this.startButtons[0]).text("Restart Computer");
     $(this.startButtons[1]).text("Restart Human");
+  },
+  renderWinner: function() {
+    this.winningDiv.show();
+  },
+  hideWinner: function() {
+    this.winningDiv.hide();
   }
 
   // availablePositions: function(chosenIndex) {
