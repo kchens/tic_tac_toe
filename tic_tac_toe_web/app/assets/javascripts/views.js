@@ -33,6 +33,16 @@ View.prototype = {
   removeEventListener: function(chosenIndex) {
     $('#' + chosenIndex).off('click');
   },
+  removeListenersFromTakenPositions: function(boardPositions) {
+    var self = this;
+    self.boxes.each(function(index) {
+      var positionValue = boardPositions[index];
+      if (typeof positionValue == "string" || positionValue instanceof String) {
+        console.log("remove listeners from taken positions: " + index);
+        self.removeEventListener(index);
+      };
+    });
+  },
   addEventListeners: function(boardOpenPositions) {},
   changeButtonsToRestart: function() {
     console.log("Start buttons------" + this.startButtons);

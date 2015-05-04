@@ -23,28 +23,27 @@ Board.prototype = {
     console.log(this.players.currentPlayer);
     console.log(this.positions);
 
-    this.getOpenPositions();
+    this.updateOpenPositions();
   },
-  getOpenPositions: function(positions) {
+  updateOpenPositions: function(positions) {
     var self = this;
     self.openPositions = [];
     self.positions.forEach( function(position) {
       if ( typeof position == "number" ) {
-        self.openPositions.push( position )
+        self.openPositions.push( position );
       }
     });
     console.log("----------")
     console.log(self.openPositions);
     return self.openPositions;
   },
-  thereIsAWinner: function() {
+  gameIsOver: function() {
     return this.gameStatus.over;
   },
   winner: function() {
-    if ( this.thereIsAWinner() ) {
-      return this.gameStatus.winner;
-    } else {
-      return this.gameStatus.winner;
-    }
-  }
+    return this.gameStatus.winner;
+  },
+  thereIsATie: function() {
+    return this.gameStatus.tie;
+  },
 }

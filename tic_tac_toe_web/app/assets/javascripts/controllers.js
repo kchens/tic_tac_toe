@@ -12,6 +12,9 @@ Controller.prototype = {
   updateView: function() {
     this.view.clearBoard();
     this.view.renderBoard( this.board.positions );
+    console.log("Before remove all event listeners---");
+    this.view.removeListenersFromTakenPositions(this.board.positions);
+    console.log("After remove all event listeners---");
   },
   bindEventListeners: function() {
     var self = this;
@@ -34,8 +37,8 @@ Controller.prototype = {
       self.numGames++;
 
       self.board.initialize(serverData);
-      self.updateView();
       self.view.changeButtonsToRestart();
+      self.updateView();
 
       self.addMove();
 
@@ -50,7 +53,7 @@ Controller.prototype = {
   addMove: function() {
     var self = this;
 
-    this.view.boxes.on('click', function(e){
+    self.view.boxes.on('click', function(e){
       $(e.target).text( self.board.players.currentPlayer );
       var chosenIndex;
       var chosenIndexData;
@@ -59,7 +62,7 @@ Controller.prototype = {
       chosenIndexData = {'chosenIndex': chosenIndex };
 
       self.view.setDataToFalse(chosenIndex);
-      self.view.removeEventListener(chosenIndex);
+      // self.view.removeEventListener(chosenIndex);
 
       $.ajax({
         url: 'http://localhost:3000/game/' + self.numGames +'/edit',
@@ -74,8 +77,11 @@ Controller.prototype = {
         self.addComputerMove();
 
         //
-        console.log("Is there a winner?--------" + self.board.thereIsAWinner());
-        if ( self.board.thereIsAWinner() ) {
+        console.log("Is there a winner?--------" + self.board.gameIsOver());
+        if ( self.board.gameIsOver() ) {
+          if ( self.board.thereIsATie() ) {
+            alert("Tie: " + self.board.thereIsATie() );
+          }
           alert("Winner is: " + self.board.winner());
         } else {
           alert("No winner: " + self.board.winner());
@@ -104,8 +110,11 @@ Controller.prototype = {
 
 
       //
-      console.log("Is there a winner?--------" + self.board.thereIsAWinner());
-      if ( self.board.thereIsAWinner() ) {
+      console.log("Is there a winner?--------" + self.board.gameIsOver());
+      if ( self.board.gameIsOver() ) {
+        if ( self.board.thereIsATie() ) {
+          alert("Tie: " + self.board.thereIsATie() );
+        }
         alert("Winner is: " + self.board.winner());
       } else {
         alert("No winner: " + self.board.winner());
