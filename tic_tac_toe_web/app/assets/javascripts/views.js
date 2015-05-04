@@ -14,8 +14,8 @@ function View() {
   this.kanyeWinImg = $('#kanye-win');
   this.taylorWinImg = $('#taylor-win');
 
-  this.kanyeImgs = "<img class='kanye' src='https://raw.githubusercontent.com/kchens/kchens.github.io/master/images/ttt-kanye.png'>"
-  this.taylorImgs = "<img class='taylor' src='https://raw.githubusercontent.com/kchens/kchens.github.io/master/images/ttt-taylor.png'>"
+  this.kanyeImgs = "<img class='kanye img-rounded' src='https://raw.githubusercontent.com/kchens/kchens.github.io/master/images/ttt-kanye.png'>"
+  this.taylorImgs = "<img class='taylor img-rounded' src='https://raw.githubusercontent.com/kchens/kchens.github.io/master/images/ttt-taylor.png'>"
 }
 
 View.prototype = {
@@ -76,7 +76,6 @@ View.prototype = {
   },
   addEventListeners: function(boardOpenPositions) {},
   changeButtonsToRestart: function() {
-    console.log("Start buttons------" + this.startButtons);
     this.startComputerButton.text("Restart Computer");
     this.startHumanButton.text("Restart Human");
   },

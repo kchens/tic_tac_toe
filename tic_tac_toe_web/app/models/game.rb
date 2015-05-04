@@ -1,6 +1,6 @@
 class Game
 
-  attr_reader :human_player, :computer_player
+  attr_reader :human_player, :computer_player, :json_response
 
   def initialize(board_factory, human_player_factory, computer_player_factory)
     @board = board_factory.new
@@ -72,7 +72,5 @@ class Game
       board: board
     }
   end
-
-  attr_reader :json_response
 
 end

@@ -15,9 +15,9 @@ Controller.prototype = {
     this.view.hideWinner();
     // this.view.renderBoard( this.board.positions );
     this.view.renderKanyeTaylorBoard( this.board.positions );
-    console.log("Before remove all event listeners---");
+
     this.view.removeListenersFromTakenPositions(this.board.positions);
-    console.log("After remove all event listeners---");
+
   },
   bindEventListeners: function() {
     var self = this;
@@ -47,7 +47,7 @@ Controller.prototype = {
 
     })
     .fail(function(serverData) {
-      console.log("Failed to Start Game");
+      alert("Failed to Start Game");
     });
   },
   isGameOver: function() {
@@ -114,7 +114,7 @@ Controller.prototype = {
       // }
       // alert("Winner is: " + this.board.winner());
       this.view.removeListenersFromAllPositions();
-      this.view.board.hide();
+      // this.view.board.hide();
       this.view.renderWinner(this.board.winner(), this.board.thereIsATie());
     }
   },

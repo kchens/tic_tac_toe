@@ -1,8 +1,15 @@
 html {
   text-align: center;
-  font-size: 20px;
+
   font-family: 'Lato', sans-serif;
   text-decoration: none;
+  background-image: url("https://raw.githubusercontent.com/kchens/kchens.github.io/master/images/ttt-background.jpg");
+  background-size: contain;
+}
+
+body {
+  color: white;
+  background-color: transparent;
 }
 
 .square{
@@ -12,27 +19,24 @@ html {
 }
 
 .v {
-  border-left:1px solid #000;
-  border-right:1px solid #000;
+  border-left:1px solid white;
+  border-right:1px solid white;
 }
 
 .h {
-  border-top:1px solid #000;
-  border-bottom:1px solid #000;
+  border-top:1px solid white;
+  border-bottom:1px solid white;
 }
 
 #game-over, #winner, #tie, #kanye-win, #taylor {
   display: none;
 }
 
-#board {
+#board, #game-over {
   margin: 3%;
 }
 
-#computer-start {
-  float: left;
-}
-
-#human-start {
-  float: right;
+.kanye {
+  width: 128px;
+  height: 128px;
 }
