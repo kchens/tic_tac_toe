@@ -46,7 +46,6 @@ class Game #< ActiveRecord::Base
 
   def play_human
     @start_human = true
-    switch_players!
     set_json_response
     return json_response
   end

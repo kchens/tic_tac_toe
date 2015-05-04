@@ -40,10 +40,14 @@ Controller.prototype = {
 
       self.board.initialize(serverData);
       self.view.changeButtonsToRestart();
-      self.updateView();
 
-      self.addMove();
+      if (self.board.startHuman === true) {
+        self.addMove();
+      } else {
+        self.updateView();
 
+        self.addMove();
+      }
     })
     .fail(function(serverData) {
       console.log("Failed to Start Game");
