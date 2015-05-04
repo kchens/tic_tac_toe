@@ -11,8 +11,8 @@ function View() {
   this.kanyeWinImg = $('#kanye-win');
   this.taylorWinImg = $('#taylor-win');
 
-  // this.kanyeImg = $('#kanye');
-  // this.taylorImg = $('#taylor');
+  this.kanyeImgs = "<img class='kanye' src='https://pbs.twimg.com/profile_images/417832296993943552/I6WmfoY5.jpeg'>"
+  this.taylorImgs = "<img class='taylor' src='https://33.media.tumblr.com/avatar_30a0960139db_128.png'>"
 }
 
 View.prototype = {
@@ -24,11 +24,24 @@ View.prototype = {
     var self = this;
     self.boxes.each(function(index) {
       var positionValue = boardPositions[index];
-      if (typeof positionValue == "string" || positionValue instanceof String) {
+      if (typeof positionValue === "string" || positionValue instanceof String) {
         $(this).text( positionValue );
         console.log("chosen index" + index)
         self.setDataToFalse(index);
       };
+    });
+  },
+  renderKanyeTaylorBoard: function(boardPositions) {
+    var self = this;
+    self.boxes.each(function(index) {
+      var positionValue = boardPositions[index];
+      if (positionValue === "X") {
+        $(this).append(self.taylorImgs);
+        self.setDataToFalse(index);
+      } else if (positionValue === "O") {
+        $(this).append(self.kanyeImgs);
+        self.setDataToFalse(index);
+      }
     });
   },
   resetAllData: function() {

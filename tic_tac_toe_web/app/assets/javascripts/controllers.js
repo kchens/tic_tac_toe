@@ -12,7 +12,8 @@ Controller.prototype = {
   updateView: function() {
     this.view.clearBoard();
     this.view.hideWinner();
-    this.view.renderBoard( this.board.positions );
+    // this.view.renderBoard( this.board.positions );
+    this.view.renderKanyeTaylorBoard( this.board.positions );
     console.log("Before remove all event listeners---");
     this.view.removeListenersFromTakenPositions(this.board.positions);
     console.log("After remove all event listeners---");
