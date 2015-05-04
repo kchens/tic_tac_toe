@@ -79,7 +79,7 @@ Controller.prototype = {
 
         self.alertWinnerOrTie();
       })
-      .fail( function(serverDat) {
+      .fail( function(serverData) {
         alert("Failed to render HUMAN move.");
       });
     });
@@ -113,8 +113,6 @@ Controller.prototype = {
       alert("Winner is: " + this.board.winner());
       this.view.removeListenersFromAllPositions();
       this.view.renderWinner(this.board.winner(), this.board.thereIsATie());
-    } else {
-      alert("Game Not Over. Winner: " + this.board.winner());
     }
   },
 }

@@ -43,7 +43,7 @@ li {
   border-bottom:1px solid #000;
 }
 
-#game-over, #winner, #tie, #kanye, #taylor {
+#game-over, #winner, #tie, #kanye-win, #taylor {
   display: none;
 }
 

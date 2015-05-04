@@ -8,8 +8,11 @@ function View() {
   this.gameOverDiv = $('#game-over');
   this.winnerHeading = $('#winner');
   this.tieHeading = $('#tie');
-  this.kanyeImg = $('#kanye');
-  this.taylorImg = $('#taylor');
+  this.kanyeWinImg = $('#kanye-win');
+  this.taylorWinImg = $('#taylor-win');
+
+  // this.kanyeImg = $('#kanye');
+  // this.taylorImg = $('#taylor');
 }
 
 View.prototype = {
@@ -65,19 +68,19 @@ View.prototype = {
     this.gameOverDiv.show();
     if ( winningMarker == "X" ) {
       this.winnerHeading.show();
-      this.taylorImg.show();
+      this.taylorWinImg.show();
     } else if ( winningMarker == "O") {
       this.winnerHeading.show();
-      this.kanyeImg.show();
+      this.kanyeWinImg.show();
     } else if ( tieBoolean ) {
       this.tieHeading.show();
-      this.kanyeImg.show();
+      this.kanyeWinImg.show();
     }
   },
   hideWinner: function() {
     this.gameOverDiv.hide();
-    this.kanyeImg.hide();
-    this.taylorImg.hide();
+    this.kanyeWinImg.hide();
+    this.taylorWinImg.hide();
 
     this.winnerHeading.hide();
     this.tieHeading.hide();
