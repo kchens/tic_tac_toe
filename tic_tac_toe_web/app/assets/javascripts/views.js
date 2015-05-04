@@ -98,10 +98,4 @@ View.prototype = {
     this.winnerHeading.hide();
     this.tieHeading.hide();
   }
-
-  // availablePositions: function(chosenIndex) {
-  //   var newPositions = [];
-  //   $('#' + chosenIndex).attr('data-open', false);
-  // },
-  // removeEventListeners: function(){}
 }
