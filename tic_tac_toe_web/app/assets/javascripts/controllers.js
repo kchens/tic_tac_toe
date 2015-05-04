@@ -31,7 +31,7 @@ Controller.prototype = {
   startGame: function(gameType) {
     var self = this;
     $.ajax({
-      url: 'http://localhost:3000/game/',
+      url: '//localhost:3000/game/',
       type: 'POST',
       dataType: 'json',
       data: gameType
@@ -68,7 +68,7 @@ Controller.prototype = {
       // self.view.removeEventListener(chosenIndex);
 
       $.ajax({
-        url: 'http://localhost:3000/game/' + self.numGames +'/edit',
+        url: '//localhost:3000/game/' + self.numGames +'/edit',
         type: 'GET',
         dataType: 'json',
         data: chosenIndexData
@@ -91,7 +91,7 @@ Controller.prototype = {
     var fakeChosenIndexData = {'chosenIndex': null };
 
     $.ajax({
-      url: 'http://localhost:3000/game/' + self.numGames +'/edit',
+      url: '//localhost:3000/game/' + self.numGames +'/edit',
       type: 'GET',
       dataType: 'json',
       data: fakeChosenIndexData
