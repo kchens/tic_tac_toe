@@ -43,6 +43,12 @@ View.prototype = {
       };
     });
   },
+  removeListenersFromAllPositions: function(boardPositions) {
+    var self = this;
+    self.boxes.each(function(index) {
+      self.removeEventListener(index);
+    });
+  },
   addEventListeners: function(boardOpenPositions) {},
   changeButtonsToRestart: function() {
     console.log("Start buttons------" + this.startButtons);

@@ -110,8 +110,9 @@ Controller.prototype = {
         alert("Tie: " + this.board.thereIsATie() );
       }
       alert("Winner is: " + this.board.winner());
+      this.view.removeListenersFromAllPositions();
     } else {
-      alert("No winner: " + this.board.winner());
+      alert("Game Not Over. Winner: " + this.board.winner());
     }
   },
 }
