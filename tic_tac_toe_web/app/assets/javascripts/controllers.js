@@ -35,6 +35,7 @@ Controller.prototype = {
 
       self.board.initialize(serverData);
       self.updateView();
+      self.view.changeButtonsToRestart();
 
       self.addMove();
 

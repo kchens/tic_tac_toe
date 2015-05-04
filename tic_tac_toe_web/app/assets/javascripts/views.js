@@ -3,7 +3,7 @@ function View() {
   // this.computerStart = $('#computer-start');
   // this.humanStart = $('#human-start');
 
-  this.startButtons = $('#start-game');
+  this.startButtons = $('#start-game').children();
 }
 
 View.prototype = {
@@ -24,16 +24,22 @@ View.prototype = {
   },
   resetAllData: function() {
     this.boxes.each(function(index) {
-      $(this).attr('data-open', 'true')
-    })
+      $(this).attr('data-open', 'true');
+    });
   },
   setDataToFalse: function(chosenIndex) {
     $('#' + chosenIndex).attr('data-open', false);
   },
   removeEventListener: function(chosenIndex) {
-    $('#' + chosenIndex).off('click')
+    $('#' + chosenIndex).off('click');
   },
-  addEventListeners: function(boardOpenPositions) {}
+  addEventListeners: function(boardOpenPositions) {},
+  changeButtonsToRestart: function() {
+    console.log("Start buttons------" + this.startButtons);
+    $(this.startButtons[0]).text("Restart Computer");
+    $(this.startButtons[1]).text("Restart Human");
+  }
+
   // availablePositions: function(chosenIndex) {
   //   var newPositions = [];
   //   $('#' + chosenIndex).attr('data-open', false);
