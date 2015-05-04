@@ -76,18 +76,7 @@ Controller.prototype = {
 
         self.addComputerMove();
 
-        //
-        console.log("Is there a winner?--------" + self.board.gameIsOver());
-        if ( self.board.gameIsOver() ) {
-          if ( self.board.thereIsATie() ) {
-            alert("Tie: " + self.board.thereIsATie() );
-          }
-          alert("Winner is: " + self.board.winner());
-        } else {
-          alert("No winner: " + self.board.winner());
-        }
-        //
-
+        self.alertWinnerOrTie();
       })
       .fail( function(serverDat) {
         alert("Failed to render HUMAN move.");
@@ -108,22 +97,21 @@ Controller.prototype = {
       self.board.initialize(serverData);
       self.updateView();
 
-
-      //
-      console.log("Is there a winner?--------" + self.board.gameIsOver());
-      if ( self.board.gameIsOver() ) {
-        if ( self.board.thereIsATie() ) {
-          alert("Tie: " + self.board.thereIsATie() );
-        }
-        alert("Winner is: " + self.board.winner());
-      } else {
-        alert("No winner: " + self.board.winner());
-      }
-      //
+      self.alertWinnerOrTie();
 
     })
     .fail( function(serverData) {
       alert("Failed to render COMPUTER move.");
     })
-  }
+  },
+  alertWinnerOrTie: function() {
+    if ( this.board.gameIsOver() ) {
+      if ( this.board.thereIsATie() ) {
+        alert("Tie: " + this.board.thereIsATie() );
+      }
+      alert("Winner is: " + this.board.winner());
+    } else {
+      alert("No winner: " + this.board.winner());
+    }
+  },
 }
