@@ -1,8 +1,7 @@
 function View() {
   this.board = $('#board');
+  this.openBoxes = $('td[data-open=true]');
   this.boxes = $('td');
-  // this.computerStart = $('#computer-start');
-  // this.humanStart = $('#human-start');
 
   this.startButtons = $('#start-game').children();
   this.startComputerButton = $('#computer-start')
@@ -29,7 +28,7 @@ View.prototype = {
       var positionValue = boardPositions[index];
       if (typeof positionValue === "string" || positionValue instanceof String) {
         $(this).text( positionValue );
-        console.log("chosen index" + index)
+        // console.log("chosen index" + index)
         self.setDataToFalse(index);
       };
     });
@@ -63,12 +62,12 @@ View.prototype = {
     self.boxes.each(function(index) {
       var positionValue = boardPositions[index];
       if (typeof positionValue == "string" || positionValue instanceof String) {
-        console.log("remove listeners from taken positions: " + index);
+        // console.log("remove listeners from taken positions: " + index);
         self.removeEventListener(index);
       };
     });
   },
-  removeListenersFromAllPositions: function(boardPositions) {
+  removeListenersFromAllPositions: function() {
     var self = this;
     self.boxes.each(function(index) {
       self.removeEventListener(index);

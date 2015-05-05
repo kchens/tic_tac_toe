@@ -3,12 +3,12 @@ html {
 
   font-family: 'Lato', sans-serif;
   text-decoration: none;
-  background-image: url("https://raw.githubusercontent.com/kchens/kchens.github.io/master/images/ttt-background.jpg");
-  background-size: contain;
+  /*background-image: url("https://raw.githubusercontent.com/kchens/kchens.github.io/master/images/ttt-background.jpg");
+  background-size: contain;*/
 }
 
 body {
-  color: white;
+  color: black;
   background-color: transparent;
 }
 
@@ -19,13 +19,13 @@ body {
 }
 
 .v {
-  border-left:1px solid white;
-  border-right:1px solid white;
+  border-left:1px solid black;
+  border-right:1px solid black;
 }
 
 .h {
-  border-top:1px solid white;
-  border-bottom:1px solid white;
+  border-top:1px solid black;
+  border-bottom:1px solid black;
 }
 
 #game-over, #winner, #tie, #kanye-win, #taylor {

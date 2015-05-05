@@ -6,20 +6,20 @@ function Controller(Board, View) {
 
 Controller.prototype = {
   run: function() {
+    this.view.board.show();
     this.updateView();
-    this.bindEventListeners();
+    this.bindEventListenersToStart();
   },
   updateView: function() {
-    this.view.board.show();
     this.view.clearBoard();
     this.view.hideWinner();
+
     // this.view.renderBoard( this.board.positions );
     this.view.renderKanyeTaylorBoard( this.board.positions );
 
     this.view.removeListenersFromTakenPositions(this.board.positions);
-
   },
-  bindEventListeners: function() {
+  bindEventListenersToStart: function() {
     var self = this;
 
     $(this.view.startButtons).on('click', function(e){
@@ -43,7 +43,7 @@ Controller.prototype = {
       self.board.initialize(serverData);
       self.view.changeButtonsToRestart();
       self.updateView();
-      self.addMove()
+      self.addMove();
 
     })
     .fail(function(serverData) {
@@ -56,7 +56,10 @@ Controller.prototype = {
   addMove: function() {
     var self = this;
 
-    self.view.boxes.on('click', function(e){
+    self.view.board.on('click', 'td[data-open=true]', function(e) {
+      console.log("------------------------");
+      self.view.board.off('click');
+
       $(e.target).text( self.board.players.currentPlayer );
       var chosenIndex;
       var chosenIndexData;
@@ -65,7 +68,6 @@ Controller.prototype = {
       chosenIndexData = {'chosenIndex': chosenIndex };
 
       self.view.setDataToFalse(chosenIndex);
-      // self.view.removeEventListener(chosenIndex);
 
       $.ajax({
         url: '//localhost:3000/game/' + self.numGames +'/edit',
@@ -77,17 +79,19 @@ Controller.prototype = {
         self.board.initialize(serverData);
         self.updateView();
 
+        self.alertWinnerOrTie();
         self.addComputerMove();
 
-        self.alertWinnerOrTie();
       })
       .fail( function(serverData) {
         alert("Failed to render HUMAN move.");
       });
     });
+
   },
   addComputerMove: function() {
     var self = this;
+
     var fakeChosenIndexData = {'chosenIndex': null };
 
     $.ajax({
@@ -100,22 +104,23 @@ Controller.prototype = {
       self.board.initialize(serverData);
       self.updateView();
 
-      self.alertWinnerOrTie();
 
+      self.addMove();
+      self.alertWinnerOrTie();
     })
     .fail( function(serverData) {
       alert("Failed to render COMPUTER move.");
     })
   },
   alertWinnerOrTie: function() {
-    if ( this.board.gameIsOver() ) {
-      // if ( this.board.thereIsATie() ) {
-        // alert("Tie: " + this.board.thereIsATie() );
+    if ( this.board.over ) {
+      // if ( this.board.tie ) {
+        // alert("Tie: " + this.board.tie );
       // }
       // alert("Winner is: " + this.board.winner());
       this.view.removeListenersFromAllPositions();
-      // this.view.board.hide();
-      this.view.renderWinner(this.board.winner(), this.board.thereIsATie());
+      this.view.renderWinner(this.board.winner, this.board.tie);
+      this.view.board.off('click');
     }
   },
 }
